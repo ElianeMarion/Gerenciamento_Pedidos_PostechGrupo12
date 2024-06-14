@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "required": [
+    "customerId",
+    "name",
+    "cpf",
+    "phoneNumber",
+    "address"
+  ],
+  "properties": {
+    "customerId": {
+      "type": "integer"
+    },
+    "name": {
+      "type": "string"
+    },
+    "cpf": {
+      "type": "integer"
+    },
+    "phoneNumber": {
+      "type": "integer"
+    },
+    "address": {
+      "type": "object",
+      "required": [
+        "street",
+        "number",
+        "complement",
+        "city",
+        "state",
+        "zipcode",
+        "subSector"
+      ],
+      "properties": {
+        "street": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer"
+        },
+        "complement": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zipcode": {
+          "type": "integer"
+        },
+        "subSector": {
+          "type": "integer"
+        }
+      }
+    }
+  }
+}
