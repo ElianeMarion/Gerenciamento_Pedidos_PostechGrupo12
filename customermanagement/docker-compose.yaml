@@ -17,7 +17,7 @@ services:
       - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
   db:
     image: 'postgres:latest'
-    container_name: 'database'
+    container_name: 'customerdb'
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pswcustomer

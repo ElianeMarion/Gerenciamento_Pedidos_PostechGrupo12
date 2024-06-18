@@ -1,25 +1,18 @@
 # Customer Management - API REST
 
-## Execução dos Testes Regressivos
+## Construir a aplicação e seus containers
 
-- para execução dos testes unitários:
+- Construir a aplicação
 ```sh
-make unit-test
+make build 
 ```
 
-- para execução dos testes integrados:
+- Empacotar a aplicação e construir os container de aplicação e banco de dados
 ```sh
-make integration-test
+make docker-build
 ```
 
-- para executar os testes de sistema
-    - pré-requisito: subir os contaniers com aplicação e base de dados
-
-```sh
-make system-test
-```
-
-- Subir contaniers com aplicação e base de dados
+- Subir contaniers
 ```sh
 make docker-start
 ```
@@ -28,3 +21,34 @@ make docker-start
 ```sh
 make docker-stop
 ```
+
+## Execução dos Testes Regressivos
+
+- execução dos testes unitários:
+```sh
+make unit-test
+```
+
+- execução dos testes integrados:
+```sh
+make integration-test
+```
+
+- execução dos testes de sistema
+  - pré-requisito: subir os contaniers com aplicação e base de dados
+
+```sh
+make system-test
+```
+
+## Geração de Relatório dos Testes
+
+- visualização do Relatório dos Testes (Allure)
+  - (requer allure instalado)
+
+```sh
+allure serve target/allure-results
+```
+
+
+
