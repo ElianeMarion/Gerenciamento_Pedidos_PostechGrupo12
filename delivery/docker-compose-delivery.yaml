@@ -1,0 +1,24 @@
+services:
+
+  mongodb_delivery:
+    image: "mongo:latest"
+    container_name: mongodbdelivery
+    restart: always
+    ports:
+      - "5435:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: delivery
+      MONGO_INITDB_ROOT_PASSWORD: delivery2024
+    volumes:
+      - mongodb_data_delivery:/data/db
+      - ./initdb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:database
+    networks:
+      - network_app_manager_sale_order
+
+networks:
+  network_app_manager_sale_order:
+    name: network_app_manager_sale_order
+    driver: bridge
+
+volumes:
+  mongodb_data_delivery:

@@ -1,0 +1,5 @@
+server:
+  port: 8001
+
+URL_GOOGLE_ROUTE_API: 'https://routes.googleapis.com/directions/v2:computeRoutes'
+KEY_GOOGLE_ROUTE_API: 'AIzaSyB4PI4xRTqgbXBw5bAwtxGn5XIDUAQRNZo'

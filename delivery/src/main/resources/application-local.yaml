@@ -1,0 +1,17 @@
+server:
+  port: 8084
+
+spring:
+  jpa:
+    defer-datasource-initialization: true
+  data:
+    mongodb:
+#      uri: mongodb://localhost:5435/deliverydb
+      port: 5435
+      username: delivery
+      password: delivery2024
+      authentication-database: admin
+      database: deliverydb
+
+URL_GOOGLE_ROUTE_API: 'https://routes.googleapis.com/directions/v2:computeRoutes'
+KEY_GOOGLE_ROUTE_API: 'AIzaSyB4PI4xRTqgbXBw5bAwtxGn5XIDUAQRNZo'

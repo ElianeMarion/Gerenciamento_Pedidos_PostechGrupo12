@@ -1,0 +1,152 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "required": [
+    "order",
+    "senderAddress",
+    "deliveryID"
+  ],
+  "properties": {
+    "order": {
+      "type": "object",
+      "required": [
+        "orderID",
+        "customer",
+        "purchaseDate",
+        "deliveryDate",
+        "status",
+        "orderLines"
+      ],
+      "properties": {
+        "orderID": {
+          "type": "integer"
+        },
+        "customer": {
+          "type": "object",
+          "required": [
+            "customerID",
+            "name",
+            "cpf",
+            "phoneNumber"
+          ],
+          "properties": {
+            "customerID": {
+              "type": "integer"
+            },
+            "name": {
+              "type": "string"
+            },
+            "cpf": {
+              "type": "string"
+            },
+            "phoneNumber": {
+              "type": "integer"
+            }
+          }
+        },
+        "purchaseDate": {
+          "type": "string"
+        },
+        "deliveryDate": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string"
+        },
+        "orderLines": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "required": [
+              "orderLineID",
+              "product",
+              "quantity",
+              "price"
+            ],
+            "properties": {
+              "orderLineID": {
+                "type": "integer"
+              },
+              "product": {
+                "type": "object",
+                "required": [
+                  "productID",
+                  "name",
+                  "description",
+                  "price",
+                  "quantityStock"
+                ],
+                "properties": {
+                  "productID": {
+                    "type": "integer"
+                  },
+                  "name": {
+                    "type": "string"
+                  },
+                  "description": {
+                    "type": "string"
+                  },
+                  "price": {
+                    "type": "number"
+                  },
+                  "quantityStock": {
+                    "type": "integer"
+                  }
+                }
+              },
+              "quantity": {
+                "type": "integer"
+              },
+              "price": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      }
+    },
+    "senderAddress": {
+      "type": "object",
+      "required": [
+        "addressID",
+        "street",
+        "number",
+        "complement",
+        "city",
+        "state",
+        "zipCode",
+        "subSector"
+      ],
+      "properties": {
+        "addressID": {
+          "type": "integer"
+        },
+        "street": {
+          "type": "string"
+        },
+        "number": {
+          "type": "integer"
+        },
+        "complement": {
+          "type": "string"
+        },
+        "city": {
+          "type": "string"
+        },
+        "state": {
+          "type": "string"
+        },
+        "zipCode": {
+          "type": "string"
+        },
+        "subSector": {
+          "type": "integer"
+        }
+      }
+    },
+    "deliveryID": {
+      "type": "string"
+    }
+  }
+}
