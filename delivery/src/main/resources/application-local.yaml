@@ -12,6 +12,9 @@ spring:
       password: delivery2024
       authentication-database: admin
       database: deliverydb
+      host: localhost
 
 URL_GOOGLE_ROUTE_API: 'https://routes.googleapis.com/directions/v2:computeRoutes'
 KEY_GOOGLE_ROUTE_API: 'AIzaSyB4PI4xRTqgbXBw5bAwtxGn5XIDUAQRNZo'
+
+URL_MS_ORDER: 'http://localhost:8080/order/api'

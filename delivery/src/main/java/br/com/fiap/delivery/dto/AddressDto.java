@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class AddressDto {
 
+
     @Schema(name = "addressID",
             type = "Long",
             description = "id do endereço",

@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class ProductDto {
 
+
     @Schema(name = "productID",
             type = "Long",
             description = "id do produto",

@@ -15,11 +15,13 @@ import java.time.LocalDateTime;
 @Document
 public class Courier {
 
+
     @MongoId
     private String courierID;
     private String courierName;
     private String status;
     private LocalDateTime lastDelivery;
+
 
     public Courier(String courierName, String status) {
         this.courierName = courierName;

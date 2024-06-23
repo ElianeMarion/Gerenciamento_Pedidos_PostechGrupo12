@@ -51,7 +51,7 @@ public class RouteRequest {
         CAR("carro", "drive"),
         MOTORCYCLE("moto", "drive"),
         TRUCK("caminhão", "drive"),
-        BICKE("bicicleta", "bicycle"),
+        BIKE("bicicleta", "bicycle"),
         FOOT("andando", "walk");
 
         private final String ptBR;

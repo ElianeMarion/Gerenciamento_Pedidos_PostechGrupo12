@@ -41,7 +41,7 @@
               "type": "string"
             },
             "phoneNumber": {
-              "type": "integer"
+              "type": "string"
             }
           }
         },

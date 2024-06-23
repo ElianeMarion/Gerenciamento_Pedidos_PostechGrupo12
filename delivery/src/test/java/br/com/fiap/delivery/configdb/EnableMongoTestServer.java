@@ -11,4 +11,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Import(MongoDBEmbeddedConfig.class)
 public @interface EnableMongoTestServer {
+
 }

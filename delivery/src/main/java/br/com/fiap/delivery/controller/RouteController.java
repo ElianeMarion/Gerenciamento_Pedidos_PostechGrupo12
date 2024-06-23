@@ -4,7 +4,6 @@ import br.com.fiap.delivery.controller.swagger.RouteControllerSwagger;
 import br.com.fiap.delivery.dto.route.RouteRequest;
 import br.com.fiap.delivery.dto.route.RouteResponse;
 import br.com.fiap.delivery.service.RouteService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,6 +33,7 @@ public class RouteController implements RouteControllerSwagger {
             @RequestParam(required = false, defaultValue = "false") boolean avoidTols) {
         RouteRequest req = new RouteRequest(addressOrigin, addressDestination,
                 bestRouteInRealTime, typeOfTransport, avoidHighways, avoidTols);
+
         return routeService.findRoute(req);
     }
 

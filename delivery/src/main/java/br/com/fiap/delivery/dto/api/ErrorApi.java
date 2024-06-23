@@ -8,12 +8,19 @@ import java.util.List;
 
 @Getter
 public class ErrorApi {
-
-    @Schema(name = "message", type = "String", description = "Mensagem de erro")
+    @Schema(name = "message",
+            type = "String",
+            description = "Mensagem de erro"
+    )
     private String message;
-    @Schema(name = "errorsValidation", type = "Lista", format="List<ErrorValidation>",
-            description = "Lista com parâmetros e respectivos erros de request")
+
+    @Schema(name = "errorsValidation",
+            type = "Lista",
+            format="List<ErrorValidation>",
+            description = "Lista com parâmetros e respectivos erros de request"
+    )
     private List<FieldError> fieldErrors = new ArrayList<>();
+
 
     public ErrorApi(String message) {
         this.message = message;

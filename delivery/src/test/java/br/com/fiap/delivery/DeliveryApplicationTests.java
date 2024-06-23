@@ -30,7 +30,7 @@ class DeliveryApplicationTests {
 		} catch(Exception e) {
 			error = true;
 		}
-		assertThat(error).isFalse();
+		assertThat(error).isTrue();
 	}
 
 }

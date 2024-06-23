@@ -18,6 +18,7 @@ import java.util.List;
 @Tag(name = "Gerenciamento de entregas")
 public interface DeliveryControllerSwagger {
 
+
     String MEDIA_TYPE = MediaType.APPLICATION_JSON_VALUE;
 
     @Operation(summary = "Cadastra nova entrega", description = "Cadastre uma entrega")

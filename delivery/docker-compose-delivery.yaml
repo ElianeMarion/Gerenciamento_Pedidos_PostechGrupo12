@@ -14,6 +14,31 @@ services:
       - ./initdb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:database
     networks:
       - network_app_manager_sale_order
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  app_delivery:
+    image: "juanpapiro/delivery:dev"
+    container_name: appdelivery
+    restart: always
+    ports:
+      - "8084:8084"
+    environment:
+      - server.port=8084
+      - spring.jpa.defer-datasource-initialization=true
+      - spring.data.mongodb.host=host.docker.internal
+      - spring.data.mongodb.port=5435
+      - spring.data.mongodb.username=delivery
+      - spring.data.mongodb.password=delivery2024
+      - spring.data.mongodb.authentication-database=admin
+      - spring.data.mongodb.database=deliverydb
+      - URL_GOOGLE_ROUTE_API=https://routes.googleapis.com/directions/v2:computeRoutes
+      - KEY_GOOGLE_ROUTE_API=AIzaSyB4PI4xRTqgbXBw5bAwtxGn5XIDUAQRNZo
+      - URL_MS_ORDER=http://localhost:8080/order/api
+    networks:
+      - network_app_manager_sale_order
+
+
 
 networks:
   network_app_manager_sale_order:

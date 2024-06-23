@@ -3,6 +3,7 @@ package br.com.fiap.delivery.dto.route;
 
 public class Constants {
 
+    
     public static class TypePolyLine {
         public static final String HIGHT = "high_quality";
         public static final String DEFAULT = "overview";

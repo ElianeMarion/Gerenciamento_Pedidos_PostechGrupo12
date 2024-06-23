@@ -12,6 +12,6 @@ class CustomerDtoTest {
         assertThat(dto.getCustomerID()).isEqualTo(1L);
         assertThat(dto.getName()).isEqualTo("Maria da Compra");
         assertThat(dto.getCpf()).isEqualTo("95859119062");
-        assertThat(dto.getPhoneNumber()).isEqualTo(11999992233L);
+        assertThat(dto.getPhoneNumber()).isEqualTo("11999992233");
     }
 }

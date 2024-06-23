@@ -11,6 +11,7 @@ public enum CourierStatus {
     BUSY(2,"ocupado"),
     INACTIVE(3,"inativo");
 
+
     private final Integer code;
     private final String desc;
 

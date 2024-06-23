@@ -11,7 +11,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 
-@Tag(name = "Consulta de rotas para entrega")
+@Tag(name = "Consulta de rotas")
 public interface RouteControllerSwagger {
 
     @Operation(summary = "Consulta rota entrega", description = "Consulte rota para entrega")

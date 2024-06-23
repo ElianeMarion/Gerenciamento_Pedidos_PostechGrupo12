@@ -7,8 +7,12 @@ import br.com.fiap.delivery.dto.OrderDeliveryResponse;
 import br.com.fiap.delivery.enums.Status;
 import br.com.fiap.delivery.repository.DeliveryRepository;
 import br.com.fiap.delivery.utils.Util;
+import com.github.tomakehurst.wiremock.client.WireMock;
+import com.github.tomakehurst.wiremock.junit5.WireMockTest;
+import groovyjarjarantlr4.v4.misc.Utils;
 import io.restassured.RestAssured;
 import io.restassured.response.ValidatableResponse;
+import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -18,16 +22,17 @@ import org.springframework.data.mongodb.repository.config.EnableMongoRepositorie
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import java.util.List;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.*;
 import static io.restassured.RestAssured.given;
 import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasKey;
 
-
+@WireMockTest(httpPort = 8000)
 @ActiveProfiles("test")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @EnableMongoTestServer
@@ -130,7 +135,7 @@ class DeliveryControllerIT {
                     .statusCode(HttpStatus.CONFLICT.value())
                     .body(matchesJsonSchemaInClasspath("jsonschemas/error.schema.json"))
                     .body("$", hasKey("message"))
-                    .body("message", equalTo("Entregador não localizado."));
+                    .body("message", Matchers.equalTo("Entregador não localizado."));
         }
 
         @Test
@@ -148,6 +153,16 @@ class DeliveryControllerIT {
             OrderDeliveryResponse orderDelivery = SaveDelivery.save();
             CourierDto courierDto = saveCourier();
             setCourier(orderDelivery.getDeliveryID(), courierDto.getCourierID());
+
+            String status = String.valueOf(Status.IN_TRANSIT.getCode());
+            String id = String.valueOf(orderDelivery.getOrder().getOrderID());
+
+            WireMock.stubFor(WireMock.put(urlPathTemplate("/order/api/{id}/{status}"))
+                            .withPathParam("id", equalTo(id))
+                            .withPathParam("status", equalTo(status))
+                    .willReturn(WireMock.aResponse()
+                            .withStatus(200)));
+
             Object resp = given()
                     .put(PATH + "/left/" + courierDto.getCourierID())
                     .then()
@@ -162,6 +177,16 @@ class DeliveryControllerIT {
             CourierDto courierDto = saveCourier();
             setCourier(orderDelivery.getDeliveryID(), courierDto.getCourierID());
             deliveryLeft(courierDto.getCourierID());
+
+            String status = String.valueOf(Status.DELIVERY_COMPLETED.getCode());
+            String id = String.valueOf(orderDelivery.getOrder().getOrderID());
+
+            WireMock.stubFor(WireMock.put(urlPathTemplate("/order/api/{id}/{status}"))
+                    .withPathParam("id", equalTo(id))
+                    .withPathParam("status", equalTo(status))
+                    .willReturn(WireMock.aResponse()
+                            .withStatus(200)));
+
             given()
                     .put(PATH + "/completed/" + orderDelivery.getDeliveryID())
                     .then()
@@ -204,7 +229,22 @@ class DeliveryControllerIT {
                 .extract().body().as(OrderDeliveryResponse.class);
     }
 
+    public static OrderDeliveryResponse save(OrderDelivery orderDelivery) {
+        return given()
+                .contentType(MediaType.APPLICATION_JSON_VALUE)
+                .body(orderDelivery)
+                .when()
+                .post(PATH)
+                .then()
+                .extract().body().as(OrderDeliveryResponse.class);
+    }
+
     public static ValidatableResponse deliveryLeft(String courierID) {
+        WireMock.stubFor(WireMock.put(urlPathTemplate("/order/api/{id}/{status}"))
+                .withPathParam("id", matching("[0-9]+"))
+                .withPathParam("status", equalTo(String.valueOf(Status.IN_TRANSIT.getCode())))
+                .willReturn(WireMock.aResponse()
+                        .withStatus(200)));
         return given()
                 .put(PATH + "/left/" + courierID)
                 .then();

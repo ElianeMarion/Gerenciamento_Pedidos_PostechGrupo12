@@ -12,5 +12,6 @@ import lombok.Setter;
 public class LocalizedValue {
 
     private String text;
+    
 
 }

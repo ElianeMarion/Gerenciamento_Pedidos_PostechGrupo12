@@ -55,4 +55,5 @@ public class OrderDeliveryResponse extends OrderDelivery {
         super(order, address);
     }
 
+
 }

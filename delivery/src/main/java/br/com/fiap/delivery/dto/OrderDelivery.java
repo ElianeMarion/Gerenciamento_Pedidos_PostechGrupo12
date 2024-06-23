@@ -15,6 +15,7 @@ import lombok.Setter;
 @AllArgsConstructor
 public class OrderDelivery {
 
+
     @Schema(name = "order",
             type = "OrderDto",
             description = "Dados do pedido",

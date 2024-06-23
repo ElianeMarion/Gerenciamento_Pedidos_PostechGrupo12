@@ -8,10 +8,18 @@ import lombok.Getter;
 @AllArgsConstructor
 public class FieldError {
 
-    @Schema(name = "field", type = "String", description = "Parâmetro de request")
+
+    @Schema(name = "field",
+            type = "String",
+            description = "Parâmetro de request"
+    )
     private String field;
 
-    @Schema(name = "message", type = "String", description = "Descrição do erro relacionaro ao parâmetro")
+
+    @Schema(name = "message",
+            type = "String",
+            description = "Descrição do erro relacionaro ao parâmetro"
+    )
     private String message;
 
 }

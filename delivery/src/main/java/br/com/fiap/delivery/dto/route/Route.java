@@ -17,4 +17,5 @@ public class Route {
     private List<String> warnings;
     private LocalizedValues localizedValues;
 
+
 }

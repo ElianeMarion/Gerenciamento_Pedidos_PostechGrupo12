@@ -12,6 +12,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class CustomerDto {
 
+
     @Schema(name = "customerID",
             type = "Long",
             description = "id do cliente",
@@ -34,10 +35,11 @@ public class CustomerDto {
     private String cpf;
 
     @Schema(name = "phoneNumber",
-            type = "Long",
+            type = "String",
             description = "Telefone do cliente",
+            example = "11999991234",
             requiredMode = Schema.RequiredMode.AUTO)
-    @NotNull
-    private Long phoneNumber;
+    @NotEmpty
+    private String phoneNumber;
 
 }

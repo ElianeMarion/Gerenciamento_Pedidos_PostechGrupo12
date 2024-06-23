@@ -3,3 +3,4 @@ server:
 
 URL_GOOGLE_ROUTE_API: 'http://localhost:8000/directions/v2:computeRoutes'
 KEY_GOOGLE_ROUTE_API: 'AIzaSyBasdasRTqgbXBw5bAwtdgsdjaskjhRNZo'
+URL_MS_ORDER: 'http://localhost:8000/order/api'

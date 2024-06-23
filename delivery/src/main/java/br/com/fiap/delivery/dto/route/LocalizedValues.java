@@ -15,4 +15,5 @@ public class LocalizedValues {
     private LocalizedValue duration;
     private LocalizedValue staticDuration;
 
+
 }

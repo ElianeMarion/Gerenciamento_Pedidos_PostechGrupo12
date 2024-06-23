@@ -78,7 +78,7 @@ public class Util {
             dto.setCustomerID(1L);
             dto.setName("Maria da Compra");
             dto.setCpf("95859119062");
-            dto.setPhoneNumber(11999992233L);
+            dto.setPhoneNumber("11999992233");
             return dto;
         }
 
