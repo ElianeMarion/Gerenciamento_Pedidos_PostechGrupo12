@@ -1,7 +1,8 @@
 package br.com.ordertech.order.model;
 
-import br.com.fiap.pedido_cloud.exceptions.InvalidDateException;
-import br.com.fiap.pedido_cloud.model.enums.SituacaoPedidoEnum;
+import br.com.ordertech.order.enums.StatusEnum;
+import br.com.ordertech.order.enums.StautsOrderEnum;
+import br.com.ordertech.order.exceptions.InvalidDateException;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
@@ -21,13 +22,15 @@ public class Order {
     private Integer customerId;
     private LocalDateTime purchaseDate;
     private LocalDateTime deliveryDate;
-    private SituacaoPedidoEnum status;
+    private StatusEnum status;
     private Integer deliveryAddressId;
     private Integer originAddressId;
     private List<OrderLine> orderLine;
 
     @Transient
     private BigDecimal totalOrderValue;
+
+    private StautsOrderEnum statusOrder;
 
 
     @Override
@@ -41,6 +44,7 @@ public class Order {
                 ", deliveryAdressId=" + deliveryAddressId +
                 ", originAdressId=" + originAddressId +
                 ", orderLine=" + orderLine +
+                ", statusOrder = " + statusOrder +
                 '}';
     }
 
