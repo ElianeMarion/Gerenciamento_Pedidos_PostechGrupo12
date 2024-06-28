@@ -8,7 +8,7 @@ import br.com.ordertech.order.dto.CustomerDto;
 import br.com.ordertech.order.dto.ProductDto;
 import br.com.ordertech.order.dto.UpdateProductStock;
 import br.com.ordertech.order.enums.StatusEnum;
-import br.com.ordertech.order.enums.StautsOrderEnum;
+import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.OrderNotFoundException;
 import br.com.ordertech.order.model.Order;
 import br.com.ordertech.order.model.OrderLine;
@@ -135,7 +135,7 @@ class OrderServiceTest {
             // Assertions
             assertNotNull(savedOrder);
             assertEquals(StatusEnum.WAITING_SEPARATION, savedOrder.getStatus());
-            assertEquals(StautsOrderEnum.WAITING_PAYMENT, savedOrder.getStatusOrder());
+            assertEquals(StatusOrderEnum.WAITING_PAYMENT, savedOrder.getStatusOrder());
             assertEquals(BigDecimal.valueOf(10), savedOrder.getTotalOrderValue());
             assertNotNull(savedOrder.getPurchaseDate());
         }
@@ -181,7 +181,7 @@ class OrderServiceTest {
             when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
             when(orderRepository.save(any(Order.class))).thenReturn(order);
 
-            Order result = orderService.updateStatus(1L, StautsOrderEnum.APPROVED);
+            Order result = orderService.updateStatus(1L, StatusOrderEnum.APPROVED);
 
             assertEquals(StatusEnum.WAITING_DELIVERY, order.getStatus());
             verify(orderRepository, times(1)).findById(anyLong());

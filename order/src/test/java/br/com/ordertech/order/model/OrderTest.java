@@ -1,7 +1,7 @@
 package br.com.ordertech.order.model;
 
 import br.com.ordertech.order.enums.StatusEnum;
-import br.com.ordertech.order.enums.StautsOrderEnum;
+import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.InvalidDateException;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -23,7 +23,7 @@ public class OrderTest {
     void testInstance(){
         Order order = new Order();
         order.setOrderId(1l);
-        order.setStatusOrder(StautsOrderEnum.WAITING_PAYMENT);
+        order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
         order.setStatus(StatusEnum.WAITING_DELIVERY);
         order.setCustomerId(1);
         order.setDeliveryAddressId(456);
@@ -40,7 +40,7 @@ public class OrderTest {
         assertThat(order).isNotNull().isInstanceOf(Order.class);
         assertThat(order.getOrderId()).isNotNull().isEqualTo(1l);
         assertThat(order.getCustomerId()).isNotNull().isEqualTo(1);
-        assertThat(order.getStatusOrder()).isNotNull().isEqualTo(StautsOrderEnum.WAITING_PAYMENT);
+        assertThat(order.getStatusOrder()).isNotNull().isEqualTo(StatusOrderEnum.WAITING_PAYMENT);
         assertThat(order.getStatus()).isNotNull().isEqualTo(StatusEnum.WAITING_DELIVERY);
         assertEquals(789, order.getOriginAddressId());
         assertEquals(BigDecimal.valueOf(100.50), order.getTotalOrderValue());
@@ -88,7 +88,7 @@ public class OrderTest {
         order.setStatus(StatusEnum.WAITING_SEPARATION);
         order.setDeliveryAddressId(456);
         order.setOriginAddressId(789);
-        order.setStatusOrder(StautsOrderEnum.WAITING_PAYMENT);
+        order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
 
 
         String expectedString = "Order{" +

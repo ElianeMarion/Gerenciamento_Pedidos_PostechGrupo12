@@ -6,6 +6,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
 
 @SpringBootApplication
 @EnableFeignClients
+//@EnableBinding(KafkaBindings.class)
 public class OrderApplication {
 
 	public static void main(String[] args) {

@@ -3,10 +3,12 @@ package br.com.ordertech.order.service;
 
 import br.com.ordertech.order.consumer.CustomerClient;
 import br.com.ordertech.order.dto.CustomerDto;
+import br.com.ordertech.order.dto.PixDTO;
 import br.com.ordertech.order.dto.ProductDto;
 import br.com.ordertech.order.dto.UpdateProductStock;
+import br.com.ordertech.order.enums.PixStatus;
 import br.com.ordertech.order.enums.StatusEnum;
-import br.com.ordertech.order.enums.StautsOrderEnum;
+import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.CustomerNotFoundException;
 import br.com.ordertech.order.exceptions.OrderNotFoundException;
 import br.com.ordertech.order.model.Order;
@@ -14,12 +16,12 @@ import br.com.ordertech.order.model.OrderLine;
 import br.com.ordertech.order.producer.StockPedidoProducer;
 import br.com.ordertech.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
-import org.springframework.data.mongodb.core.aggregation.BooleanOperators;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class OrderService {
@@ -31,13 +33,16 @@ public class OrderService {
 
     private final OrderLineService orderLineService;
 
+    private final PixService pixService;
+
     public OrderService(StockPedidoProducer stockPedidoProducer,
                         OrderRepository orderRepository,
-                        @Qualifier("br.com.ordertech.order.consumer.CustomerClient") CustomerClient customerClient, OrderLineService orderLineService){
+                        @Qualifier("br.com.ordertech.order.consumer.CustomerClient") CustomerClient customerClient, OrderLineService orderLineService, PixService pixService){
         this.stockPedidoProducer = stockPedidoProducer;
         this.orderRepository = orderRepository;
         this.customerClient = customerClient;
         this.orderLineService = orderLineService;
+        this.pixService = pixService;
     }
 
     public List<Order> getAll(){
@@ -46,7 +51,6 @@ public class OrderService {
 
     public Order saveOrder(Order order){
         try{
-
 
             order.getOrderLine().forEach(orderLine-> {
 
@@ -64,9 +68,14 @@ public class OrderService {
                 product.setQuantityStock(orderLine.getQuantity());
                 product.setPrice(price);
 
-
+                PixDTO pixDto = new PixDTO();
+                pixDto.setIdentifier(UUID.randomUUID().toString());
+                pixDto.setStatus(PixStatus.EM_PROCESSAMENTO);
+                pixDto.setValor(order.getTotalOrderValue());
+                var pix = pixDto.toPix(pixService.salvarPix(pixDto));
                 // Reserva de produtos
                 this.stockPedidoProducer.reserveProduct(product);
+                order.setPix(pix);
                 orderLineService.createOrderLine(orderLine);
 
             });
@@ -80,7 +89,7 @@ public class OrderService {
             order.setDeliveryAddressId(customer.getAddressId());
             order.setOriginAddressId(1);
             order.setTotalOrderValue(totalOrderValue(order));
-            order.setStatusOrder(StautsOrderEnum.WAITING_PAYMENT);
+            order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
             return orderRepository.save(order);
         }
         catch (Exception e){
@@ -128,13 +137,13 @@ public class OrderService {
         });
     }
 
-    public Order updateStatus(Long id, StautsOrderEnum statusOrder){
+    public Order updateStatus(Long id, StatusOrderEnum statusOrder){
         Order order = orderRepository.findById(id)
                 .orElseThrow(()-> new  OrderNotFoundException("Pedido não encontrado"));
-       if(statusOrder.equals(StautsOrderEnum.APPROVED)) {
+       if(statusOrder.equals(StatusOrderEnum.APPROVED)) {
            order.setStatus(StatusEnum.WAITING_DELIVERY);
            orderRepository.save(order);
-       }else if(statusOrder.equals(StautsOrderEnum.CANCELED))
+       }else if(statusOrder.equals(StatusOrderEnum.CANCELED))
            canceledOrderReturnStock(order);
         return order;
     }

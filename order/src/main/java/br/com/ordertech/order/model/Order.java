@@ -1,7 +1,7 @@
 package br.com.ordertech.order.model;
 
 import br.com.ordertech.order.enums.StatusEnum;
-import br.com.ordertech.order.enums.StautsOrderEnum;
+import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.InvalidDateException;
 import jakarta.persistence.EnumType;
 import jakarta.persistence.Enumerated;
@@ -33,7 +33,8 @@ public class Order {
     @Transient
     private BigDecimal totalOrderValue;
 
-    private StautsOrderEnum statusOrder;
+    private StatusOrderEnum statusOrder;
+    private Pix pix;
 
     @Override
     public String toString() {

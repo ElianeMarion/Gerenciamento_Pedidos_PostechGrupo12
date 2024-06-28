@@ -1,0 +1,10 @@
+spring:
+  cloud:
+    stream:
+      bindings:
+        input:
+          destination: order-topic
+          group: grupo
+      kafka:
+        binder:
+          brokers: localhost:9091

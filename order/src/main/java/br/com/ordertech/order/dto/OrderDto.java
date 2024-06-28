@@ -1,7 +1,8 @@
 package br.com.ordertech.order.dto;
 
 import br.com.ordertech.order.enums.StatusEnum;
-import br.com.ordertech.order.enums.StautsOrderEnum;
+import br.com.ordertech.order.enums.StatusOrderEnum;
+import br.com.ordertech.order.model.Pix;
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotEmpty;
@@ -80,6 +81,7 @@ public class OrderDto {
     @Valid
     private List<OrderLineDto> orderLines;
     private BigDecimal totalOrderValue;
-    private StautsOrderEnum statusOrder;
+    private StatusOrderEnum statusOrder;
+    private Pix pix;
 
 }
