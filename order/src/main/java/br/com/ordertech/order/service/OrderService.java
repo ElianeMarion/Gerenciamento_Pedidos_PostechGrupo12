@@ -14,6 +14,7 @@ import br.com.ordertech.order.model.OrderLine;
 import br.com.ordertech.order.producer.StockPedidoProducer;
 import br.com.ordertech.order.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.data.mongodb.core.aggregation.BooleanOperators;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -28,12 +29,15 @@ public class OrderService {
 
     private final CustomerClient customerClient;
 
+    private final OrderLineService orderLineService;
+
     public OrderService(StockPedidoProducer stockPedidoProducer,
                         OrderRepository orderRepository,
-                        @Qualifier("br.com.ordertech.order.consumer.CustomerClient") CustomerClient customerClient){
+                        @Qualifier("br.com.ordertech.order.consumer.CustomerClient") CustomerClient customerClient, OrderLineService orderLineService){
         this.stockPedidoProducer = stockPedidoProducer;
         this.orderRepository = orderRepository;
         this.customerClient = customerClient;
+        this.orderLineService = orderLineService;
     }
 
     public List<Order> getAll(){
@@ -43,13 +47,27 @@ public class OrderService {
     public Order saveOrder(Order order){
         try{
 
-           ProductDto product = new ProductDto();
-            order.getOrderLine().forEach(i-> {
-                product.setProductID(i.getProductId());
-                product.setQuantityStock(i.getQuantity());
-                product.setPrice(this.stockPedidoProducer.getPrice(i.getProductId()));
-                 i.setPrice(product.getPrice().multiply(BigDecimal.valueOf(i.getQuantity())));
+
+            order.getOrderLine().forEach(orderLine-> {
+
+                BigDecimal price = stockPedidoProducer.getPrice(orderLine.getProductId());
+                orderLine.setPrice(price);
+                orderLine.setPrice(price.multiply(BigDecimal.valueOf(orderLine.getQuantity())));
+                var quantityProductInStock = stockPedidoProducer.getQuantityProductById(orderLine.getProductId());
+                // Verificação de estoque
+                  if (orderLine.getQuantity() > quantityProductInStock) {
+                      throw new RuntimeException("Estoque insuficiente");
+                 }
+                ProductDto product = new ProductDto(orderLine.getProductId(), orderLine.getQuantity());
+                stockPedidoProducer.reserveProduct(product);
+                product.setProductID(orderLine.getProductId());
+                product.setQuantityStock(orderLine.getQuantity());
+                product.setPrice(price);
+
+
+                // Reserva de produtos
                 this.stockPedidoProducer.reserveProduct(product);
+                orderLineService.createOrderLine(orderLine);
 
             });
             order.setPurchaseDate(LocalDateTime.now());
@@ -72,6 +90,10 @@ public class OrderService {
         }
     }
 
+    public Order getOrderById(Long id){
+        return orderRepository.findById(id)
+                .orElseThrow(()-> new OrderNotFoundException("Order not found"));
+    }
     public CustomerDto getCustomerById(Integer customerId) {
         return customerClient.getCustomerById(customerId);
     }
@@ -130,5 +152,6 @@ public class OrderService {
         }
         return price;
     }
+
 
 }

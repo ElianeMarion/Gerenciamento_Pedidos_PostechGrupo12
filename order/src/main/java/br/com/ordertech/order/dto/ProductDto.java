@@ -2,6 +2,7 @@ package br.com.ordertech.order.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -11,6 +12,7 @@ import java.math.BigDecimal;
 @Getter
 @Setter
 @NoArgsConstructor
+@AllArgsConstructor
 public class ProductDto {
 
     @Schema(name = "productID",
@@ -48,4 +50,8 @@ public class ProductDto {
     @NotNull
     private Integer quantityStock;
 
+    public ProductDto(Long productID, Integer quantityStock) {
+        this.productID = productID;
+        this.quantityStock = quantityStock;
+    }
 }

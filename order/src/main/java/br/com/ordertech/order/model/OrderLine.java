@@ -1,6 +1,6 @@
 package br.com.ordertech.order.model;
 
-import br.com.fiap.pedido_cloud.exceptions.InvalidValueException;
+import br.com.ordertech.order.exceptions.InvalidValueException;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -18,11 +18,10 @@ public class OrderLine {
 
 
 
-    public OrderLine(Long orderLineId, Long productId, int quantity, BigDecimal price) {
+    public OrderLine(Long orderLineId, Long productId, int quantity) {
         this.orderLineId = orderLineId;
         this.productId = productId;
         setQuantity(quantity);
-        setPrice(price);
     }
 
     public void setQuantity(int quantity) {

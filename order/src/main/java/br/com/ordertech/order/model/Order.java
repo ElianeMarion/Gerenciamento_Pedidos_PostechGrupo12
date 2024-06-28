@@ -3,6 +3,8 @@ package br.com.ordertech.order.model;
 import br.com.ordertech.order.enums.StatusEnum;
 import br.com.ordertech.order.enums.StautsOrderEnum;
 import br.com.ordertech.order.exceptions.InvalidDateException;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import lombok.Data;
 import lombok.extern.jackson.Jacksonized;
 import org.springframework.data.annotation.Id;
@@ -22,6 +24,7 @@ public class Order {
     private Integer customerId;
     private LocalDateTime purchaseDate;
     private LocalDateTime deliveryDate;
+    @Enumerated(EnumType.STRING)
     private StatusEnum status;
     private Integer deliveryAddressId;
     private Integer originAddressId;
@@ -31,7 +34,6 @@ public class Order {
     private BigDecimal totalOrderValue;
 
     private StautsOrderEnum statusOrder;
-
 
     @Override
     public String toString() {
@@ -51,7 +53,6 @@ public class Order {
     public void setPurchaseDate(LocalDateTime purchaseDate) {
         validarData("compra", purchaseDate);
         this.purchaseDate = purchaseDate;
-
     }
 
     private void validarData(String tipo, LocalDateTime purchaseDate) {
