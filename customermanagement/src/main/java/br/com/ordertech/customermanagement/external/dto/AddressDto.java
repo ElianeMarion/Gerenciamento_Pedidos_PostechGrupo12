@@ -1,13 +1,14 @@
 package br.com.ordertech.customermanagement.external.dto;
 
-
 import br.com.ordertech.customermanagement.entity.customer.Address;
 import br.com.ordertech.customermanagement.infraestructure.presenter.customer.AddressRecord;
+
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+
 import org.springframework.beans.BeanUtils;
 
 @Getter
@@ -15,6 +16,7 @@ import org.springframework.beans.BeanUtils;
 // @AllArgsConstructor
 @NoArgsConstructor
 public class AddressDto {
+    private Long addressId;
     @NotNull
     private String street;
     @NotNull
@@ -25,7 +27,7 @@ public class AddressDto {
     @NotNull
     private String state;
     @NotNull
-    private Integer zipcode;
+    private String zipcode;
     @NotNull
     private Integer subSector;
 
@@ -34,7 +36,16 @@ public class AddressDto {
     }
 
     public AddressDto(Address address) {
-        BeanUtils.copyProperties(address, this);
+        this.street = address.getStreet();
+        this.number = address.getNumber();
+        this.complement = address.getComplement();
+        this.city = address.getCity();
+        this.state = address.getState();
+        this.number = address.getNumber();
+        this.zipcode = address.getZipcode();
+        this.subSector = address.getSubSector();
+
+        // BeanUtils.copyProperties(address, this);
     }
 
 }

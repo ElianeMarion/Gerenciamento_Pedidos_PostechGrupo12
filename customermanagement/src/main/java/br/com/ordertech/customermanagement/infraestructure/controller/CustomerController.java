@@ -25,11 +25,10 @@ public class CustomerController {
         return customerEntity;
     }
 
-    public CustomerEntity findById(Integer customerId, IDataBase dataBase) {
+    public CustomerEntity findById(Long customerId, IDataBase dataBase) {
         ICustomerGateway customerGateway = new CustomerGateway(dataBase);
         customerId = CustomerUseCase.findCustomerById(customerId);
-        CustomerEntity customerEntity = customerGateway.findCustomerById(customerId);
-        return customerEntity;
+        return customerGateway.findCustomerById(customerId);
     }
 
     public List<CustomerEntity> findByName(String name, IDataBase dataBase) {
@@ -38,7 +37,7 @@ public class CustomerController {
         return CustomerUseCase.locateCustomers(customers);
     }
 
-    public CustomerEntity update (Integer customerId, CustomerRecord customerRecord, IDataBase dataBase) {
+    public CustomerEntity update (Long customerId, CustomerRecord customerRecord, IDataBase dataBase) {
         ICustomerGateway customerGateway = new CustomerGateway(dataBase);
         AddressRecord addressRecord = customerRecord.address();
         Address address = new Address(addressRecord.street(), addressRecord.number(),
@@ -50,7 +49,7 @@ public class CustomerController {
         return customerEntity;
     }
 
-    public void delete(Integer customerId, IDataBase dataBase) {
+    public void delete(Long customerId, IDataBase dataBase) {
         ICustomerGateway customerGateway = new CustomerGateway(dataBase);
         customerId = CustomerUseCase.deleteCustomer(customerId);
         customerGateway.deleteCustomer(customerId);

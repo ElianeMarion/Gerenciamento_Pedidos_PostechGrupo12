@@ -25,11 +25,12 @@ public class DataBaseJpa implements IDataBase {
         CustomerModel customerModel = new CustomerModel(customerEntity);
         customerModel = customerRepository.save(customerModel);
         customerEntity.setCustomerId(customerModel.getCustomerId());
+        customerEntity.getAddress().setAddressId(customerModel.getAddressModel().getAddressId());
         return customerEntity;
     }
 
     @Override
-    public CustomerEntity findCustomerById(Integer customerId) {
+    public CustomerEntity findCustomerById(Long customerId) {
         CustomerModel customerModel = customerRepository.findById(customerId)
                 .orElseThrow(() -> new CustomerNotFoundException());
         return customerModel.toEntity();
@@ -42,7 +43,7 @@ public class DataBaseJpa implements IDataBase {
     }
 
     @Override
-    public CustomerEntity updateCustomer(Integer customerId, CustomerEntity customerEntity) {
+    public CustomerEntity updateCustomer(Long customerId, CustomerEntity customerEntity) {
         try {
             CustomerModel customerModelUpdated = new CustomerModel(customerEntity);
             AddressModel addressModelUpdated = customerModelUpdated.getAddressModel();
@@ -69,7 +70,7 @@ public class DataBaseJpa implements IDataBase {
     }
 
     @Override
-    public void deleteCustomer(Integer customerId) {
+    public void deleteCustomer(Long customerId) {
         customerRepository.deleteById(customerId);
     }
 

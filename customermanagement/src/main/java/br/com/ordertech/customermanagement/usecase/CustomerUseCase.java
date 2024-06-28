@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 public class CustomerUseCase {
-    public static CustomerEntity registerCustomer(String name, Integer cpf, Integer phoneNumber,
+    public static CustomerEntity registerCustomer(String name, String cpf, String phoneNumber,
                                                   Address address) {
         validAddress(address);
         return new CustomerEntityBuild()
@@ -20,7 +20,7 @@ public class CustomerUseCase {
                 .build();
     }
 
-    public static Integer findCustomerById(Integer customerId) {
+    public static Long findCustomerById(Long customerId) {
         return EntityUtil.isNull(customerId, "Id do cliente é obrigatório");
     }
 
@@ -29,8 +29,8 @@ public class CustomerUseCase {
                 "Nome inválido");
     }
 
-    public static CustomerEntity updateCustomer(Integer customerId, String name, Integer cpf,
-                                                Integer phoneNumber, Address address) {
+    public static CustomerEntity updateCustomer(Long customerId, String name, String cpf,
+                                                String phoneNumber, Address address) {
         EntityUtil.isNull(customerId, "Id do cliente é obrigatório");
         CustomerEntity customerEntity = new CustomerEntityBuild()
                 .addInfos(name, cpf, phoneNumber)
@@ -40,7 +40,7 @@ public class CustomerUseCase {
         return customerEntity;
     }
 
-    public static Integer deleteCustomer(Integer customerId) {
+    public static Long deleteCustomer(Long customerId) {
         return EntityUtil.isNull(customerId, "Id do cliente é obrigatório");
     }
 
@@ -62,8 +62,4 @@ public class CustomerUseCase {
         EntityUtil.isNull(address, "Endereço é obrigatório");
     }
 
-
-    // protected CustomerUseCase() {
-    //    throw new IllegalStateException("Class util not instance");
-    // }
 }

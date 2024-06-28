@@ -14,9 +14,9 @@ public class AddressModelTest {
         void shouldCreateAddressModel() {
             Address address = Util.buildAddress();
 
-            AddressModel addressModel = new AddressModel(address, 10);
+            AddressModel addressModel = new AddressModel(address, 10L);
 
-            assertThat(addressModel.getAddressId()).isEqualTo(10);
+            assertThat(addressModel.getAddressId()).isEqualTo(10L);
             assertThat(addressModel.getStreet()).isEqualTo(address.getStreet());
             assertThat(addressModel.getNumber()).isEqualTo(address.getNumber());
             assertThat(addressModel.getComplement()).isEqualTo(address.getComplement());
@@ -32,11 +32,11 @@ public class AddressModelTest {
         @Test
         void shouldConvertModeltoEntity() {
             Address address;
-            AddressModel addressModel = new AddressModel(Util.buildAddress(), 10);
+            AddressModel addressModel = new AddressModel(Util.buildAddress(), 10L);
 
             address = addressModel.toAddress();
 
-            assertThat(addressModel.getAddressId()).isEqualTo(10);
+            assertThat(addressModel.getAddressId()).isEqualTo(10L);
             assertThat(addressModel.getStreet()).isEqualTo(address.getStreet());
             assertThat(addressModel.getNumber()).isEqualTo(address.getNumber());
             assertThat(addressModel.getComplement()).isEqualTo(address.getComplement());

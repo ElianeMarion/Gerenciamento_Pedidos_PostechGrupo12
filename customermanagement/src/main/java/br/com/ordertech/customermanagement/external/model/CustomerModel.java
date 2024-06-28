@@ -18,19 +18,13 @@ import lombok.Setter;
 public class CustomerModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer customerId;
+    Long customerId;
     private String name;
-    private Integer cpf;
-    private Integer phoneNumber;
+    private String cpf;
+    private String phoneNumber;
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "address_addressId")
     private AddressModel addressModel;
-
-/*    public CustomerModel(Integer customerId) {
-        this.customerId = customerId;
-    }
-
- */
 
     public CustomerModel(CustomerEntity customerEntity) {
         this.name = customerEntity.getName();
@@ -44,6 +38,7 @@ public class CustomerModel {
         Address address = new Address(addressModel.getStreet(), addressModel.getNumber(),
                 addressModel.getComplement(), addressModel.getCity(), addressModel.getState(),
                 addressModel.getZipcode());
+        address.setAddressId(addressModel.getAddressId());
         CustomerEntity customerEntity = new CustomerEntityBuild()
                 .addInfos(this.name, this.cpf, this.phoneNumber)
                 .addAddress(address)

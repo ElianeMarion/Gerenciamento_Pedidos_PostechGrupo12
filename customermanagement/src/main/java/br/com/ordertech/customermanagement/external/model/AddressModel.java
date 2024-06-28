@@ -18,16 +18,16 @@ import org.springframework.beans.BeanUtils;
 public class AddressModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer addressId;
+    private Long addressId;
     private String street;
     private Integer number;
     private String complement;
     private String city;
     private String state;
-    private Integer zipcode;
+    private String zipcode;
     private Integer subSector;
 
-    public AddressModel(Address address, Integer customerId) {
+    public AddressModel(Address address, Long customerId) {
         BeanUtils.copyProperties(address, this);
         this.addressId = customerId;
     }

@@ -46,7 +46,7 @@ public class DataBaseIT {
     class FindById {
         @Test
         void shouldFindCustomerById() {
-            CustomerEntity customerFound = dataBaseJpa.findCustomerById(10);
+            CustomerEntity customerFound = dataBaseJpa.findCustomerById(10L);
 
             assertThat(customerFound)
                     .isNotNull()
@@ -79,14 +79,14 @@ public class DataBaseIT {
         @Test
         void shouldUpdateCustomer() {
             String name = "João";
-            Integer cpf = 234510990;
-            Integer phoneNumber = 912349876;
+            String cpf = "04412336812";
+            String phoneNumber = "11998761234";
 
             CustomerEntity customerEntity = new CustomerEntity(name, cpf, phoneNumber);
             customerEntity.setAddress(Util.buildAddress());
-            customerEntity.setCustomerId(30);
+            customerEntity.setCustomerId(30L);
 
-            CustomerEntity customerUpdated = dataBaseJpa.updateCustomer(30, customerEntity);
+            CustomerEntity customerUpdated = dataBaseJpa.updateCustomer(30L, customerEntity);
 
             assertThat(customerUpdated)
                     .isNotNull()
@@ -105,10 +105,10 @@ public class DataBaseIT {
         @Test
         void shouldDeleteCustomer() {
 
-            dataBaseJpa.deleteCustomer(30);
+            dataBaseJpa.deleteCustomer(30L);
 
             assertThatThrownBy(
-                    () -> dataBaseJpa.findCustomerById(30))
+                    () -> dataBaseJpa.findCustomerById(30L))
                     .isInstanceOf(CustomerNotFoundException.class)
                     .hasMessage("Cliente não localizado");
         }

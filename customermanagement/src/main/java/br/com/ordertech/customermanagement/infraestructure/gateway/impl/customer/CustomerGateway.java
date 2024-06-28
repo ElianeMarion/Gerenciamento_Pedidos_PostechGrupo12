@@ -19,7 +19,7 @@ public class CustomerGateway implements ICustomerGateway {
     }
 
     @Override
-    public CustomerEntity findCustomerById(Integer customerId) {
+    public CustomerEntity findCustomerById(Long customerId) {
         return this.dataBase.findCustomerById(customerId);
     }
 
@@ -28,12 +28,12 @@ public class CustomerGateway implements ICustomerGateway {
         return this.dataBase.findCustomerByName(name);
     }
 
-    public CustomerEntity updateCustomer(Integer customerId, CustomerEntity customerEntity) {
+    public CustomerEntity updateCustomer(Long customerId, CustomerEntity customerEntity) {
         return this.dataBase.updateCustomer(customerId, customerEntity);
     }
 
     @Override
-    public void deleteCustomer(Integer customerId) {
+    public void deleteCustomer(Long customerId) {
         this.dataBase.deleteCustomer(customerId);
     }
 }

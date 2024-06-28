@@ -56,7 +56,7 @@ public class CustomerGatewayIT {
     class FindById {
         @Test
         void shouldFindCustomerById() {
-            CustomerEntity customerEntity = customerGateway.findCustomerById(10);
+            CustomerEntity customerEntity = customerGateway.findCustomerById(10L);
 
             assertThat(customerEntity)
                     .isNotNull()
@@ -69,7 +69,7 @@ public class CustomerGatewayIT {
         @Test
         void shouldThrowException_WhenCurtomerNotFound() {
             assertThatThrownBy(
-                    () -> customerGateway.findCustomerById(99))
+                    () -> customerGateway.findCustomerById(99L))
                     .isInstanceOf(CustomerNotFoundException.class)
                     .hasMessage("Cliente não localizado");
         }
@@ -96,14 +96,14 @@ public class CustomerGatewayIT {
         @Test
         void shouldUpdateCustomer() {
             String name = "João";
-            Integer cpf = 234510990;
-            Integer phoneNumber = 912349876;
+            String cpf = "04412336812";
+            String phoneNumber = "11998761234";
 
             CustomerEntity customerEntity = new CustomerEntity(name, cpf, phoneNumber);
             customerEntity.setAddress(Util.buildAddress());
-            customerEntity.setCustomerId(30);
+            customerEntity.setCustomerId(30L);
 
-            CustomerEntity customerUpdated = customerGateway.updateCustomer(30, customerEntity);
+            CustomerEntity customerUpdated = customerGateway.updateCustomer(30L, customerEntity);
 
             assertThat(customerUpdated)
                     .isNotNull()
@@ -121,10 +121,10 @@ public class CustomerGatewayIT {
         @Test
         void shouldDeleteCustomer() {
 
-            customerGateway.deleteCustomer(30);
+            customerGateway.deleteCustomer(30L);
 
             assertThatThrownBy(
-                    () -> customerGateway.findCustomerById(30))
+                    () -> customerGateway.findCustomerById(30L))
                     .isInstanceOf(CustomerNotFoundException.class)
                     .hasMessage("Cliente não localizado");
         }

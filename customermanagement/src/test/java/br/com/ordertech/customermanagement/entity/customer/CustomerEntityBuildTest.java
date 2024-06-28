@@ -14,14 +14,14 @@ public class CustomerEntityBuildTest {
 
             CustomerEntityBuild customerEntityBuild = new CustomerEntityBuild();
 
-            customerEntityBuild.addInfos("Jose", 012333444, 998761234);
+            customerEntityBuild.addInfos("Jose", "04412336812", "11998761234");
             CustomerEntity customerEntity = customerEntityBuild.build();
 
             assertThat(customerEntity).isNotNull()
                     .isInstanceOf(CustomerEntity.class);
             assertThat(customerEntity.getName()).isEqualTo("Jose");
-            assertThat(customerEntity.getCpf()).isEqualTo(012333444);
-            assertThat(customerEntity.getPhoneNumber()).isEqualTo(998761234);
+            assertThat(customerEntity.getCpf()).isEqualTo("04412336812");
+            assertThat(customerEntity.getPhoneNumber()).isEqualTo("11998761234");
         }
 
         @Test
@@ -31,7 +31,7 @@ public class CustomerEntityBuildTest {
 
             CustomerEntityBuild customerEntityBuild = new CustomerEntityBuild();
 
-            customerEntityBuild.addInfos("Jose", 012333444, 998761234);
+            customerEntityBuild.addInfos("Jose", "04412336812", "11998761234");
             customerEntityBuild.addAddress(address);
             CustomerEntity customerEntity = customerEntityBuild.build();
 
@@ -42,7 +42,7 @@ public class CustomerEntityBuildTest {
         }
 
         private CustomerEntityBuild buildWithInfos() {
-            return new CustomerEntityBuild().addInfos("Jose", 012333444, 998761234);
+            return new CustomerEntityBuild().addInfos("Jose", "04412336812", "11998761234");
         }
 
     }

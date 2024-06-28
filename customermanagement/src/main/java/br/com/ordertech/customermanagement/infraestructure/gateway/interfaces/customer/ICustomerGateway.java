@@ -6,8 +6,8 @@ import java.util.List;
 
 public interface ICustomerGateway {
     CustomerEntity registerCustomer(CustomerEntity customerEntity);
-    CustomerEntity findCustomerById(Integer customerId);
+    CustomerEntity findCustomerById(Long customerId);
     List<CustomerEntity> findCustomerByName(String name);
-    CustomerEntity updateCustomer(Integer customerId, CustomerEntity customerEntity);
-    void deleteCustomer(Integer customerId);
+    CustomerEntity updateCustomer(Long customerId, CustomerEntity customerEntity);
+    void deleteCustomer(Long customerId);
 }

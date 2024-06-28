@@ -66,10 +66,10 @@ public class CustomerGatewayTest {
         void shouldFindCustomerById() {
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
-            when(dataBase.findCustomerById(10))
+            when(dataBase.findCustomerById(10L))
                     .thenReturn(customerEntity);
 
-            CustomerEntity customerFound = customerGateway.findCustomerById(10);
+            CustomerEntity customerFound = customerGateway.findCustomerById(10L);
 
             assertThat(customerFound)
                     .isNotNull()
@@ -109,11 +109,11 @@ public class CustomerGatewayTest {
         void shouldUpdateCustomer() {
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
-            when(dataBase.updateCustomer(Integer.valueOf(10), customerEntity))
+            when(dataBase.updateCustomer(Long.valueOf(10L), customerEntity))
                     .thenReturn(customerEntity);
 
             CustomerEntity customerUpdated = customerGateway
-                    .updateCustomer(Integer.valueOf(10), customerEntity);
+                    .updateCustomer(Long.valueOf(10L), customerEntity);
 
             assertThat(customerUpdated)
                     .isNotNull()
@@ -127,7 +127,7 @@ public class CustomerGatewayTest {
     class DeleteCustomer {
         @Test
         void deleteCustomer() {
-            Integer customerId = Integer.valueOf(10);
+            Long customerId = Long.valueOf(10);
             doNothing().when(dataBase).deleteCustomer(customerId);
 
             customerGateway.deleteCustomer(customerId);

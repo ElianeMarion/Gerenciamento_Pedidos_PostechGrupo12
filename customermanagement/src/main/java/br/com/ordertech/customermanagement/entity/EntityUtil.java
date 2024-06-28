@@ -16,6 +16,10 @@ public class EntityUtil {
         return (Integer) execute(value, message);
     }
 
+    public static Long isNull(Long value, String message) {
+        return (Long) execute(value, message);
+    }
+
     public static Address isNull(Address value, String message) {
         return (Address) execute(value, message);
     }

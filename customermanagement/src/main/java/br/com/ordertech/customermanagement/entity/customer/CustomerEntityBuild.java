@@ -7,7 +7,7 @@ import java.util.Optional;
 public class CustomerEntityBuild {
     private Optional<CustomerEntity> customerEntity = Optional.ofNullable(null);
 
-    public CustomerEntityBuild addInfos(String name, Integer cpf, Integer phoneNumber) {
+    public CustomerEntityBuild addInfos(String name, String cpf, String phoneNumber) {
         this.customerEntity = Optional.of(new CustomerEntity(name, cpf, phoneNumber));
         return this;
     }

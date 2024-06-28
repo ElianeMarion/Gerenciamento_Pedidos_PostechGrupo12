@@ -1,50 +1,59 @@
 # Customer Management - API REST
 
-## Construir a aplicação e seus containers
+## API Reference
+Need application started
 
-- Construir a aplicação
+[Swagger](http://localhost:8080/swagger-ui/index.html#/) 
+
+## Build the application and its containers
+
+- Clean project
+```sh
+mvn clean 
+```
+
+- Build the application
 ```sh
 make build 
 ```
 
-- Empacotar a aplicação e construir os container de aplicação e banco de dados
+- Package the application and build the application and database containers
 ```sh
 make docker-build
 ```
 
-- Subir contaniers
+- Start contaniers
 ```sh
 make docker-start
 ```
 
-- Parar contaniers
+- Stop contaniers
 ```sh
 make docker-stop
 ```
 
-## Execução dos Testes Regressivos
+## Regressive testing
 
-- execução dos testes unitários:
+- executing unit tests:
 ```sh
 make unit-test
 ```
 
-- execução dos testes integrados:
+- execution of integrated tests:
 ```sh
 make integration-test
 ```
 
-- execução dos testes de sistema
-  - pré-requisito: subir os contaniers com aplicação e base de dados
-
+- execution of systems tests
+  - prerequisite: start containers with application and database
 ```sh
 make system-test
 ```
 
-## Geração de Relatório dos Testes
+## Test Report Generation
 
-- visualização do Relatório dos Testes (Allure)
-  - (requer allure instalado)
+- viewing the Test Report (Allure)
+  - (requires allure installed)
 
 ```sh
 allure serve target/allure-results

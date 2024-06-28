@@ -74,7 +74,7 @@ public class CustomerApiControllerTest {
         void shouldFindCustomerById() throws Exception {
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
-            when(customerController.findById(any(Integer.class), any(IDataBase.class)))
+            when(customerController.findById(any(Long.class), any(IDataBase.class)))
                     .thenReturn(customerEntity);
 
             // Act + Assert
@@ -105,7 +105,7 @@ public class CustomerApiControllerTest {
         void shouldUpdateCustomer() throws Exception {
             CustomerEntity customerEntityOut = Util.buildCustomerEntityFull();
 
-            when(customerController.update(any(Integer.class), any(CustomerRecord.class), any(IDataBase.class)))
+            when(customerController.update(any(Long.class), any(CustomerRecord.class), any(IDataBase.class)))
                     .thenReturn(customerEntityOut);
 
             // Act + Assert
@@ -122,7 +122,7 @@ public class CustomerApiControllerTest {
         void shouldDeleteCustomer() throws Exception {
 
             doNothing()
-                    .when(customerController).delete(any(Integer.class), any(IDataBase.class));
+                    .when(customerController).delete(any(Long.class), any(IDataBase.class));
 
             // Act + Assert
             mockMvc.perform(delete("/customer/{id}", 10))

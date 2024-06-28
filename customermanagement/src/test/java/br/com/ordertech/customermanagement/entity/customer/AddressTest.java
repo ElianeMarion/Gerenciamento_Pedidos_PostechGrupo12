@@ -12,11 +12,11 @@ public class AddressTest {
         @Test
         void shouldCreateAddress() {
             String street = "Rua das Flores";
-            Integer number = Integer.valueOf(132);
+            Integer number = 132;
             String complement = "Bloco E apto 42";
             String city = "Valinhos";
             String state = "São Paulo";
-            Integer zipcode = Integer.valueOf(6020030);
+            String zipcode = "06020030";
 
             Address address = new Address(street, number, complement, city, state, zipcode);
 
@@ -25,7 +25,7 @@ public class AddressTest {
             assertThat(address.getComplement()).isEqualTo("Bloco E apto 42");
             assertThat(address.getCity()).isEqualTo("Valinhos");
             assertThat(address.getState()).isEqualTo("São Paulo");
-            assertThat(address.getZipcode()).isEqualTo(Integer.valueOf(6020030));
+            assertThat(address.getZipcode()).isEqualTo("06020030");
             assertThat(address.getSubSector()).isEqualTo(Integer.valueOf(0));
         }
     }

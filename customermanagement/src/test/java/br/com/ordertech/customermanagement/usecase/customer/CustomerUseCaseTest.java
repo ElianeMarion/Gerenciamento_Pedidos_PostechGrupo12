@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -46,7 +45,7 @@ public class CustomerUseCaseTest {
             when(customerEntityBuild.build()).thenReturn(ce);
 
             CustomerEntity customerEntity = CustomerUseCase.registerCustomer("Jose",
-                    12123123, 998761234, address);
+                    "04412336812", "11998761234", address);
 
             assertThat(customerEntity)
                     .isNotNull()
@@ -56,13 +55,13 @@ public class CustomerUseCaseTest {
 
         @Test
         void shouldFindCustomerByID() {
-            Integer id = Integer.valueOf(10);
+            Long id = 10L;
 
             assertThat(CustomerUseCase.findCustomerById(id))
                     .isNotNull()
-                    .isInstanceOf(Integer.class);
+                    .isInstanceOf(Long.class);
 
-            assertThat(CustomerUseCase.findCustomerById(id)).isEqualTo(10);
+            assertThat(CustomerUseCase.findCustomerById(id)).isEqualTo(10L);
         }
 
         @Test
@@ -84,8 +83,8 @@ public class CustomerUseCaseTest {
 
             when(customerEntityBuild.build()).thenReturn(ce);
 
-            CustomerEntity customerEntity = CustomerUseCase.updateCustomer(10, "Jose",
-                    12123123, 998761234, address);
+            CustomerEntity customerEntity = CustomerUseCase.updateCustomer(10L, "Jose",
+                    "04412336812", "11998761234", address);
 
             assertThat(customerEntity)
                     .isNotNull()
@@ -95,11 +94,11 @@ public class CustomerUseCaseTest {
 
         @Test
         void shouldDeleteCustomer() {
-            Integer id = Integer.valueOf(10);
+            Long id = 10L;
 
             assertThat(CustomerUseCase.deleteCustomer(id))
                     .isNotNull()
-                    .isInstanceOf(Integer.class);
+                    .isInstanceOf(Long.class);
 
             assertThat(CustomerUseCase.deleteCustomer(id)).isEqualTo(10);
         }

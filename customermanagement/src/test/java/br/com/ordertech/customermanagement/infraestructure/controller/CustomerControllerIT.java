@@ -56,7 +56,7 @@ public class CustomerControllerIT {
         @Test
         void shouldFindCurtomerById() {
 
-            CustomerEntity customerEntity = customerController.findById(10, dataBaseJpa);
+            CustomerEntity customerEntity = customerController.findById(10L, dataBaseJpa);
 
             assertThat(customerEntity)
                     .isNotNull()
@@ -72,7 +72,7 @@ public class CustomerControllerIT {
         void shouldThrowException_WhenCurtomerNotFound() {
 
             assertThatThrownBy(
-                    () -> customerController.findById(99, dataBaseJpa))
+                    () -> customerController.findById(99L, dataBaseJpa))
                     .isInstanceOf(CustomerNotFoundException.class)
                     .hasMessage("Cliente não localizado");
         }
@@ -102,11 +102,11 @@ public class CustomerControllerIT {
     class Update {
         @Test
         void shouldUpdateCurtomer() {
-            CustomerDto customerDto = Util.buildCustomerDto();;
+            CustomerDto customerDto = Util.buildCustomerDto();
             customerDto.setName("JOSE DA SILVA II");
             CustomerRecord customerRecord = customerDto.toRecord();
 
-            CustomerEntity customerEntity = customerController.update(10, customerRecord, dataBaseJpa);
+            CustomerEntity customerEntity = customerController.update(10L, customerRecord, dataBaseJpa);
 
             assertThat(customerEntity)
                     .isNotNull()
@@ -123,10 +123,10 @@ public class CustomerControllerIT {
         @Test
         void shouldDeleteCurtomer() {
 
-            customerController.delete(10, dataBaseJpa);
+            customerController.delete(10L, dataBaseJpa);
 
             assertThatThrownBy(
-                    () -> customerController.findById(10, dataBaseJpa))
+                    () -> customerController.findById(10L, dataBaseJpa))
                     .isInstanceOf(CustomerNotFoundException.class)
                     .hasMessage("Cliente não localizado");
         }

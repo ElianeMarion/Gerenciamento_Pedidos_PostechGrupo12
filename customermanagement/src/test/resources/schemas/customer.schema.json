@@ -17,10 +17,10 @@
       "type": "string"
     },
     "cpf": {
-      "type": "integer"
+      "type": "string"
     },
     "phoneNumber": {
-      "type": "integer"
+      "type": "string"
     },
     "address": {
       "type": "object",
@@ -34,6 +34,9 @@
         "subSector"
       ],
       "properties": {
+        "addressId": {
+          "type": "integer"
+        },
         "street": {
           "type": "string"
         },
@@ -50,7 +53,7 @@
           "type": "string"
         },
         "zipcode": {
-          "type": "integer"
+          "type": "string"
         },
         "subSector": {
           "type": "integer"

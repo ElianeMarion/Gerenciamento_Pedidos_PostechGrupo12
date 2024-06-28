@@ -6,7 +6,7 @@ public record AddressRecord(
         String complement,
         String city,
         String state,
-        Integer zipcode,
+        String zipcode,
         Integer subSector
 ) {
 }

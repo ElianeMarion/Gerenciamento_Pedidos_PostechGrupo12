@@ -3,23 +3,23 @@ package br.com.ordertech.customermanagement.entity.customer;
 import br.com.ordertech.customermanagement.entity.EntityUtil;
 
 public class CustomerEntity {
-    private Integer customerId;
+    private Long customerId;
     private String name;
-    private Integer cpf;
-    private Integer phoneNumber;
+    private String cpf;
+    private String phoneNumber;
     private Address address;
 
-    public CustomerEntity(String name, Integer cpf, Integer phoneNumber) {
+    public CustomerEntity(String name, String cpf, String phoneNumber) {
         this.name = EntityUtil.isNullOrBlank(name, "Nome é obrigatório");
-        this.cpf = EntityUtil.isNull(cpf, "cpf é obrigatório");
-        this.phoneNumber = EntityUtil.isNull(phoneNumber, "Número do telefone é obrigatório");
+        this.cpf = EntityUtil.isNullOrBlank(cpf, "cpf é obrigatório");
+        this.phoneNumber = EntityUtil.isNullOrBlank(phoneNumber, "Número do telefone é obrigatório");
     }
 
-    public Integer getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -27,35 +27,19 @@ public class CustomerEntity {
         return name;
     }
 
-    /* public void setName(String name) {
-        this.name = name;
-    }
 
-     */
-
-    public Integer getCpf() {
+    public String getCpf() {
         return cpf;
     }
 
-    /* public void setCpf(Integer cpf) {
-        this.cpf = cpf;
-    }
-
-     */
-
-    public Integer getPhoneNumber() {
+    public String getPhoneNumber() {
         return phoneNumber;
     }
-
-    /* public void setPhoneNumber(Integer phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
-
-     */
 
     public Address getAddress() {
         return address;
     }
+
     public void setAddress(Address address) {
         this.address = address;
     }

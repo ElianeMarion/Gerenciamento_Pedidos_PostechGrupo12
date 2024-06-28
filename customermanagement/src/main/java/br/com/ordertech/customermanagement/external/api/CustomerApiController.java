@@ -27,13 +27,13 @@ public class CustomerApiController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<CustomerDto> register(@RequestBody @Valid CustomerDto customerDto) {
+    public ResponseEntity<CustomerDto> register(@RequestBody CustomerDto customerDto) {
         CustomerEntity customerEntity = customerController.register(customerDto.toRecord(), dataBaseJpa);
         return ResponseEntity.status(HttpStatus.CREATED).body(new CustomerDto(customerEntity));
     }
 
     @GetMapping("/{customerId}")
-    public ResponseEntity<CustomerDto> findById(@PathVariable Integer customerId) {
+    public ResponseEntity<CustomerDto> findById(@PathVariable Long customerId) {
         CustomerEntity customerEntity = customerController.findById(customerId, dataBaseJpa);
         return ResponseEntity.ok(new CustomerDto(customerEntity));
     }
@@ -47,7 +47,7 @@ public class CustomerApiController {
     @Transactional
     @PutMapping("/{customerId}")
     public ResponseEntity<CustomerDto> update(
-            @PathVariable @Valid Integer customerId,
+            @PathVariable Long customerId,
             @RequestBody @Valid CustomerDto customerDto) {
         CustomerEntity customerEntity = customerController.
                 update(customerId, customerDto.toRecord(), dataBaseJpa);
@@ -56,7 +56,7 @@ public class CustomerApiController {
 
     @Transactional
     @DeleteMapping("/{customerId}")
-    public ResponseEntity<CustomerDto> delete(@PathVariable Integer customerId) {
+    public ResponseEntity<CustomerDto> delete(@PathVariable Long customerId) {
         customerController.delete(customerId, dataBaseJpa);
         return ResponseEntity.noContent().build();
     }

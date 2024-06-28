@@ -48,7 +48,7 @@ public class DataBaseTest {
         @Test
         void shouldRegisterCustomer() {
             CustomerModel customerModel = new CustomerModel(Util.buildCustomerEntityFull());
-            customerModel.setCustomerId(10);
+            customerModel.setCustomerId(10L);
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
             when(customerRepository.save(any(CustomerModel.class)))
@@ -68,10 +68,10 @@ public class DataBaseTest {
             CustomerModel customerModel = new CustomerModel(Util.buildCustomerEntityFull());
             Optional<CustomerModel> optionalCustomer = Optional.of(customerModel);
 
-            when(customerRepository.findById(any(Integer.class)))
+            when(customerRepository.findById(any(Long.class)))
                     .thenReturn(optionalCustomer);
 
-            CustomerEntity customerFound = dataBase.findCustomerById(10);
+            CustomerEntity customerFound = dataBase.findCustomerById(10L);
 
             assertThat(customerFound).isNotNull()
                     .isInstanceOf(CustomerEntity.class);
@@ -103,21 +103,21 @@ public class DataBaseTest {
         @Test
         void shouldUpdateCustomer() {
             CustomerModel customerModelIn = new CustomerModel(Util.buildCustomerEntityFull());
-            customerModelIn.setCustomerId(10);
+            customerModelIn.setCustomerId(10L);
             CustomerModel customerModelOut = new CustomerModel(Util.buildCustomerEntityFull());
-            customerModelOut.setCustomerId(10);
+            customerModelOut.setCustomerId(10L);
             customerModelOut.setName("João II");
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
             // getReferenceById
 
-            when(customerRepository.getReferenceById(10))
+            when(customerRepository.getReferenceById(10L))
                     .thenReturn(customerModelIn);
 
             when(customerRepository.save(any(CustomerModel.class)))
                     .thenReturn(customerModelOut);
 
-            CustomerEntity customerUpdated = dataBase.updateCustomer(10, customerEntity);
+            CustomerEntity customerUpdated = dataBase.updateCustomer(10L, customerEntity);
 
             assertThat(customerUpdated).isNotNull()
                     .isInstanceOf(CustomerEntity.class);
@@ -127,19 +127,12 @@ public class DataBaseTest {
 
         @Test
         void shouldNotFoundCustomer() {
-            /*
-            CustomerModel customerModelIn = new CustomerModel(Util.buildCustomerEntityFull());
-            customerModelIn.setCustomerId(10);
-            CustomerModel customerModelOut = new CustomerModel(Util.buildCustomerEntityFull());
-            customerModelOut.setCustomerId(10);
-            customerModelOut.setName("João II");
-             */
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
-            when(customerRepository.getReferenceById(10))
+            when(customerRepository.getReferenceById(10L))
                     .thenThrow(new EntityNotFoundException());
 
-            assertThatThrownBy(() -> dataBase.updateCustomer(10, customerEntity))
+            assertThatThrownBy(() -> dataBase.updateCustomer(10L, customerEntity))
                     .isInstanceOf(CustomerNotFoundException.class)
                     .hasMessage("Cliente não localizado");
         }
@@ -154,12 +147,12 @@ public class DataBaseTest {
 
             doNothing()
                     .when(customerRepository)
-                    .deleteById(10);
+                    .deleteById(10L);
 
-            dataBase.deleteCustomer(10);
+            dataBase.deleteCustomer(10L);
 
             verify(customerRepository, times(1))
-                    .deleteById(10);
+                    .deleteById(10L);
         }
     }
 

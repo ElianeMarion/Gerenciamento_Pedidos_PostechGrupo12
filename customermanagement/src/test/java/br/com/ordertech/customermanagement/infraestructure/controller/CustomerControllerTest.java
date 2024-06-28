@@ -73,10 +73,10 @@ public class CustomerControllerTest {
         void shouldFinById() {
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
-            when(dataBase.findCustomerById(10))
+            when(dataBase.findCustomerById(10L))
                     .thenReturn(customerEntity);
 
-            CustomerEntity customerFound = customerController.findById(10, dataBase);
+            CustomerEntity customerFound = customerController.findById(10L, dataBase);
 
             assertThat(customerFound)
                     .isNotNull()
@@ -114,10 +114,10 @@ public class CustomerControllerTest {
 
             CustomerRecord customerRecord = Util.buildCustomerRecord();
 
-            when(dataBase.updateCustomer(any(Integer.class), any(CustomerEntity.class)))
+            when(dataBase.updateCustomer(any(Long.class), any(CustomerEntity.class)))
                     .thenReturn(customerEntity);
 
-            CustomerEntity customerUpdate = customerController.update(10, customerRecord, dataBase);
+            CustomerEntity customerUpdate = customerController.update(10L, customerRecord, dataBase);
 
             assertThat(customerUpdate)
                     .isNotNull()
@@ -134,11 +134,11 @@ public class CustomerControllerTest {
             CustomerEntity customerEntity = Util.buildCustomerEntityFull();
 
             doNothing()
-                    .when(dataBase).deleteCustomer(10);
+                    .when(dataBase).deleteCustomer(10L);
 
-            customerController.delete(10, dataBase);
+            customerController.delete(10L, dataBase);
 
-            verify(dataBase, times(1)).deleteCustomer(10);
+            verify(dataBase, times(1)).deleteCustomer(10L);
         }
     }
 
