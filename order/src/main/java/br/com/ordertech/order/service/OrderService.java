@@ -58,15 +58,19 @@ public class OrderService {
                 orderLine.setPrice(price);
                 orderLine.setPrice(price.multiply(BigDecimal.valueOf(orderLine.getQuantity())));
                 var quantityProductInStock = stockPedidoProducer.getQuantityProductById(orderLine.getProductId());
-                // Verificação de estoque
-                  if (orderLine.getQuantity() > quantityProductInStock) {
-                      throw new RuntimeException("Estoque insuficiente");
-                 }
+
+
                 ProductDto product = new ProductDto(orderLine.getProductId(), orderLine.getQuantity());
                 stockPedidoProducer.reserveProduct(product);
                 product.setProductID(orderLine.getProductId());
                 product.setQuantityStock(orderLine.getQuantity());
                 product.setPrice(price);
+                this.stockPedidoProducer.reserveProduct(product);
+
+                // Verificação de estoque
+                if (orderLine.getQuantity() > quantityProductInStock) {
+                    throw new RuntimeException("Estoque insuficiente");
+                }
 
                 PixDTO pixDto = new PixDTO();
                 pixDto.setIdentifier(UUID.randomUUID().toString());
@@ -74,7 +78,7 @@ public class OrderService {
                 pixDto.setValor(order.getTotalOrderValue());
                 var pix = pixDto.toPix(pixService.salvarPix(pixDto));
                 // Reserva de produtos
-                this.stockPedidoProducer.reserveProduct(product);
+
                 order.setPix(pix);
                 orderLineService.createOrderLine(orderLine);
 
