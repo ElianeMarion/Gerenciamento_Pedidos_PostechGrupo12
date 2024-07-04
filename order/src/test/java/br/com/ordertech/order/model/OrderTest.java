@@ -1,8 +1,13 @@
 package br.com.ordertech.order.model;
 
+import br.com.ordertech.order.Utils.OrderHelper;
 import br.com.ordertech.order.enums.StatusEnum;
 import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.InvalidDateException;
+import br.com.ordertech.order.models.Customer;
+import br.com.ordertech.order.models.Order;
+import br.com.ordertech.order.models.OrderLine;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
@@ -18,6 +23,18 @@ import static org.junit.jupiter.api.Assertions.*;
 public class OrderTest {
 
     Order order = new Order();
+    private Customer customer;
+    private List<OrderLine> orderLines;
+
+    @BeforeEach
+    public void setUp() {
+        customer = new Customer();
+        customer.setCustomerId(1L);
+
+        orderLines = new ArrayList<>();
+        orderLines.add(new OrderLine(1L, 1L, 1));
+    }
+
 
     @Test
     void testInstance(){
@@ -25,9 +42,9 @@ public class OrderTest {
         order.setOrderId(1l);
         order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
         order.setStatus(StatusEnum.WAITING_DELIVERY);
-        order.setCustomerId(1);
-        order.setDeliveryAddressId(456);
-        order.setOriginAddressId(789);
+        order.setCustomerId(1L);
+        order.setDeliveryAddressId(456L);
+        order.setOriginAddressId(789L);
         order.setTotalOrderValue(BigDecimal.valueOf(100.50));
 
         List<OrderLine> orderLines = new ArrayList<>();
@@ -47,6 +64,25 @@ public class OrderTest {
         assertNotNull(order.getOrderLine());
         assertEquals(1, order.getOrderLine().size());
 
+    }
+
+    @Test
+    public void testOrderConstructorAndGetters() {
+        LocalDateTime now = LocalDateTime.now();
+        Order order = new Order(1L, customer, now, now.plusDays(3), StatusEnum.WAITING_DELIVERY,
+                1L, 2L, orderLines, BigDecimal.valueOf(200.00),
+                StatusOrderEnum.WAITING_PAYMENT);
+
+        assertThat(order.getOrderId()).isEqualTo(1L);
+        assertThat(order.getCustomerId()).isEqualTo(1L);
+        assertThat(order.getPurchaseDate()).isEqualTo(now);
+        assertThat(order.getDeliveryDate()).isEqualTo(now.plusDays(3));
+        assertThat(order.getStatus()).isEqualTo(StatusEnum.WAITING_DELIVERY);
+        assertThat(order.getDeliveryAddressId()).isEqualTo(1L);
+        assertThat(order.getOriginAddressId()).isEqualTo(2L);
+        assertThat(order.getOrderLine()).isEqualTo(orderLines);
+        assertThat(order.getTotalOrderValue()).isEqualTo(BigDecimal.valueOf(200.00));
+        assertThat(order.getStatusOrder()).isEqualTo(StatusOrderEnum.WAITING_PAYMENT);
     }
     @Test
     void check_setPurchaseDate_ValidPurchaseDate(){
@@ -82,12 +118,12 @@ public class OrderTest {
     void testToString() {
         Order order = new Order();
         order.setOrderId(1L);
-        order.setCustomerId(123);
+        order.setCustomerId(123l);
         order.setPurchaseDate(LocalDateTime.now());
         order.setDeliveryDate(LocalDateTime.now().plusDays(3));
         order.setStatus(StatusEnum.WAITING_SEPARATION);
-        order.setDeliveryAddressId(456);
-        order.setOriginAddressId(789);
+        order.setDeliveryAddressId(456l);
+        order.setOriginAddressId(789l);
         order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
 
 

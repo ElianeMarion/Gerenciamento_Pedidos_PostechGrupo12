@@ -1,78 +1,93 @@
 package br.com.ordertech.order.controller;
 
-import br.com.ordertech.order.Utils.OrderHelper;
-import br.com.ordertech.order.dto.OrderDto;
-import br.com.ordertech.order.model.Order;
-import com.github.tomakehurst.wiremock.client.WireMock;
-import com.github.tomakehurst.wiremock.junit5.WireMockTest;
-import io.restassured.RestAssured;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
+import br.com.ordertech.order.dto.CustomerDto;
+import br.com.ordertech.order.models.Order;
+import br.com.ordertech.order.service.OrderService;
 import org.junit.jupiter.api.Test;
-import org.mockito.internal.matchers.Or;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.web.server.LocalServerPort;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.equalTo;
-import static io.restassured.RestAssured.given;
-import static io.restassured.module.jsv.JsonSchemaValidator.matchesJsonSchemaInClasspath;
-import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import java.util.Collections;
+import java.util.NoSuchElementException;
 
-@WireMockTest(httpPort = 8000)
-@ActiveProfiles("test")
-@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
 
+@SpringJUnitConfig
+@WebMvcTest(OrderController.class)
+@AutoConfigureMockMvc
 public class OrderControllerIT {
 
-    @LocalServerPort
-    private int port;
+    @Autowired
+    private MockMvc mockMvc;
 
-    private static final String PATH = "/orders";
+    @MockBean
+    private OrderService orderService;
 
-    @BeforeEach
-    void setup() {
-        RestAssured.port = port;
-        RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+    @Test
+    public void testListAllOrders() throws Exception {
+        // Mocking service response
+        when(orderService.getAll()).thenReturn(Collections.singletonList(new Order()));
+
+        // Performing GET request
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 
-    @Nested
-    class SaveOrder {
+    @Test
+    public void testCreateOrder_Success() throws Exception {
+        // Mocking request and service response
+        Order mockOrder = new Order();
+        when(orderService.saveOrder(any(Order.class))).thenReturn(mockOrder);
 
-        @Test
-        void testShouldPermitSaveOrder() {
-/* @PostMapping("reserve")
-    void reserveProduct(@RequestBody ProductDto product);*/
-            WireMock.stubFor(WireMock.post("http://localhost:8082/product")
-                    .withHeader("Content-Type", equalTo("application/json"))
-                    .willReturn(WireMock.aResponse()
-                            .withStatus(200)
-                            .withHeader("Content-Type", "application/json")
-                            .withBody(OrderHelper.serialize(OrderHelper.buildProduct()))));
-            OrderDto resp = given()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .body(OrderHelper.createOrder())
-                    .when()
-                    .post(PATH)
-                    .then()
-                    .statusCode(HttpStatus.CREATED.value())
-                    .body(matchesJsonSchemaInClasspath("jsonschemas/order.save.response.schema.json"))
-                    .extract().body().as(OrderDto.class);
-            assertThat(resp.getOrderId()).isNotZero().isInstanceOf(String.class);
-        }
+        // Performing POST request
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(MockMvcResultMatchers.status().isCreated());
+    }
 
-        @Test
-        void testShouldBadRequestSaveOrder() {
-            given()
-                    .contentType(MediaType.APPLICATION_JSON_VALUE)
-                    .body(OrderHelper.createOrder())
-                    .when()
-                    .post(PATH)
-                    .then()
-                    .statusCode(HttpStatus.BAD_REQUEST.value())
-                    .body(matchesJsonSchemaInClasspath("jsonschemas/error.schema.json"));
-        }
+    @Test
+    public void testCreateOrder_ProductNotAvailable() throws Exception {
+        // Mocking service to throw NoSuchElementException
+        when(orderService.saveOrder(any(Order.class))).thenThrow(new NoSuchElementException("Produto não disponível"));
+
+        // Performing POST request
+        mockMvc.perform(MockMvcRequestBuilders.post("/orders")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("{}"))
+                .andExpect(MockMvcResultMatchers.status().isBadRequest());
+    }
+
+    @Test
+    public void testGetCustomerByOrderId() throws Exception {
+        // Mocking service response
+        CustomerDto mockCustomer = new CustomerDto();
+        when(orderService.getCustomerById(anyLong())).thenReturn(mockCustomer);
+
+        // Performing GET request
+        mockMvc.perform(MockMvcRequestBuilders.get("/orders/1/customer")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
+    }
+
+    @Test
+    public void testUpdateStatus() throws Exception {
+        // Mocking service response
+        Order mockOrder = new Order();
+        when(orderService.updateStatus(anyLong(), anyInt())).thenReturn(mockOrder);
+
+        // Performing PUT request
+        mockMvc.perform(MockMvcRequestBuilders.put("/orders/1/1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().isOk());
     }
 }

@@ -2,7 +2,7 @@ package br.com.ordertech.order.service;
 
 import br.com.ordertech.order.Utils.OrderHelper;
 import br.com.ordertech.order.exceptions.NotFoundException;
-import br.com.ordertech.order.model.OrderLine;
+import br.com.ordertech.order.models.OrderLine;
 import br.com.ordertech.order.repository.OrderLineRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -20,10 +20,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.times;
 
 public class OrderLineServiceTest {
 

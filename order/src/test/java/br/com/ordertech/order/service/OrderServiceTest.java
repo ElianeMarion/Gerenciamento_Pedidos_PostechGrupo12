@@ -2,17 +2,19 @@ package br.com.ordertech.order.service;
 
 
 import br.com.ordertech.order.Utils.OrderHelper;
-import br.com.ordertech.order.consumer.CustomerClient;
-import br.com.ordertech.order.dto.AddressDto;
+
 import br.com.ordertech.order.dto.CustomerDto;
 import br.com.ordertech.order.dto.ProductDto;
 import br.com.ordertech.order.dto.UpdateProductStock;
 import br.com.ordertech.order.enums.StatusEnum;
 import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.OrderNotFoundException;
-import br.com.ordertech.order.model.Order;
-import br.com.ordertech.order.model.OrderLine;
-import br.com.ordertech.order.producer.StockPedidoProducer;
+
+import br.com.ordertech.order.infra.CustomerClient;
+import br.com.ordertech.order.infra.StockPedidoProducer;
+import br.com.ordertech.order.models.Address;
+import br.com.ordertech.order.models.Order;
+import br.com.ordertech.order.models.OrderLine;
 import br.com.ordertech.order.repository.OrderRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Nested;
@@ -27,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
-
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
@@ -58,11 +59,11 @@ class OrderServiceTest {
 
         // Setup dummy data
         customer = new CustomerDto();
-        customer.setCustomerID(1);
-        AddressDto address = new AddressDto(1,"Avenida Paulista", 54,"",
+        customer.setCustomerId(1L);
+
+        var address = new Address(1l,"Avenida Paulista", 54,"",
                 "São Paulo", "SP", "343434", 28394999);
-        address.setAddressID(1);
-        //customer.setAddressId(address);
+        customer.setAddress(address);
 
         order = new Order();
         List<OrderLine> orderLines = new ArrayList<>();
@@ -119,7 +120,7 @@ class OrderServiceTest {
 
             when(stockPedidoProducer.getPrice(anyLong())).thenReturn(BigDecimal.TEN);
             doNothing().when(stockPedidoProducer).reserveProduct(any(ProductDto.class));
-            when(customerClient.getCustomerById(anyInt())).thenReturn(customer);
+            when(customerClient.getCustomerById(anyLong())).thenReturn(customer);
             when(orderRepository.save(any(Order.class))).thenReturn(order);
 
             Order savedOrder = orderService.saveOrder(order);
@@ -128,7 +129,7 @@ class OrderServiceTest {
 
             verify(stockPedidoProducer, times(1)).getPrice(anyLong());
      //       verify(stockPedidoProducer, times(1)).reserveProduct(any(ProductDto.class));
-            verify(customerClient, times(1)).getCustomerById(anyInt());
+            verify(customerClient, times(1)).getCustomerById(anyLong());
             verify(orderRepository, times(1)).save(any(Order.class));
 
 
@@ -181,7 +182,7 @@ class OrderServiceTest {
             when(orderRepository.findById(anyLong())).thenReturn(Optional.of(order));
             when(orderRepository.save(any(Order.class))).thenReturn(order);
 
-            Order result = orderService.updateStatus(1L, StatusOrderEnum.APPROVED);
+            Order result = orderService.updateStatus(1L, StatusOrderEnum.APPROVED.ordinal());
 
             assertEquals(StatusEnum.WAITING_DELIVERY, order.getStatus());
             verify(orderRepository, times(1)).findById(anyLong());

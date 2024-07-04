@@ -2,12 +2,11 @@ package br.com.ordertech.order.controller;
 
 import br.com.ordertech.order.Utils.OrderHelper;
 import br.com.ordertech.order.dto.CustomerDto;
-import br.com.ordertech.order.model.Order;
+import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.service.OrderService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,15 +17,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
-import org.springframework.test.web.servlet.ResultMatcher;
-
 import static org.mockito.Mockito.*;
-
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
@@ -96,13 +89,13 @@ public class OrderControllerTest {
     void testGetCustomerByOrderId() throws Exception {
         CustomerDto customer = OrderHelper.buildCustomer();
 
-        when(orderService.getCustomerById(anyInt())).thenReturn(customer);
+        when(orderService.getCustomerById(anyLong())).thenReturn(customer);
 
         mockMvc.perform(get("/orders/1/customer"))
                 .andExpect(status().isOk())
                 .andExpect(content().contentType(MediaType.APPLICATION_JSON));
 
-        verify(orderService, times(1)).getCustomerById(anyInt());
+        verify(orderService, times(1)).getCustomerById(anyLong());
     }
 
     @Test

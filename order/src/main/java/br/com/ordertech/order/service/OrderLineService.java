@@ -1,7 +1,8 @@
 package br.com.ordertech.order.service;
 
 import br.com.ordertech.order.exceptions.NotFoundException;
-import br.com.ordertech.order.model.OrderLine;
+import br.com.ordertech.order.models.Order;
+import br.com.ordertech.order.models.OrderLine;
 import br.com.ordertech.order.repository.OrderLineRepository;
 import org.springframework.stereotype.Service;
 

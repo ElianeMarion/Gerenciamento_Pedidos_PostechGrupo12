@@ -1,65 +1,103 @@
 package br.com.ordertech.order.controller;
 
-
-import br.com.ordertech.order.Utils.OrderHelper;
-import br.com.ordertech.order.controller.OrderController;
-import br.com.ordertech.order.model.Order;
+import br.com.ordertech.order.dto.CustomerDto;
+import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.service.OrderService;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
+import java.util.Collections;
+import java.util.List;
+import java.util.NoSuchElementException;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 public class OrderControllerTest2 {
-
-    private MockMvc mockMvc;
     @Mock
     private OrderService orderService;
 
-    AutoCloseable openMocks;
+    @InjectMocks
+    private OrderController orderController;
 
     @BeforeEach
-    public void setUp() throws Exception {
-        openMocks = MockitoAnnotations.openMocks(this);
-        OrderController orderController = new OrderController(orderService);
-        mockMvc = MockMvcBuilders.standaloneSetup(orderController)
-                .addFilter((request, response, chain) -> {
-                    response.setCharacterEncoding("UTF-8");
-                    chain.doFilter(request, response);
-                }, "/*")
-                .build();
+    public void setup() {
+        MockitoAnnotations.initMocks(this);
     }
 
-    @AfterEach
-    void tearDown() throws Exception {
-        openMocks.close();
+    @Test
+    public void testListAllOrders() {
+        // Mocking service response
+        List<Order> mockOrders = Collections.singletonList(new Order());
+        when(orderService.getAll()).thenReturn(mockOrders);
+
+        // Calling controller method
+        ResponseEntity<List<Order>> responseEntity = orderController.listAll();
+
+        // Verifying the result
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(mockOrders, responseEntity.getBody());
     }
 
+    @Test
+    public void testCreateOrder_Success() {
+        // Mocking request and service response
+        Order mockOrder = new Order();
+        when(orderService.saveOrder(any(Order.class))).thenReturn(mockOrder);
 
+        // Calling controller method
+        ResponseEntity<?> responseEntity = orderController.createOrder(mockOrder);
 
-    @Nested
-    class CreateOrder {
-        @Test
-        void shouldCreateOrder() throws Exception {
-            var order = OrderHelper.createOrder();
-            when(orderService.saveOrder(order)).thenAnswer(p -> p.getArgument(0));
+        // Verifying the result
+        assertEquals(HttpStatus.CREATED, responseEntity.getStatusCode());
+        assertEquals(mockOrder, responseEntity.getBody());
+    }
 
-            mockMvc.perform(post("/orders")
-                            .contentType(MediaType.APPLICATION_JSON))
-                    .andExpect(status().isCreated());
+    @Test
+    public void testCreateOrder_ProductNotAvailable() {
+        // Mocking service to throw NoSuchElementException
+        doThrow(new NoSuchElementException("Produto não disponível")).when(orderService).saveOrder(any(Order.class));
 
-            verify(orderService, times(1)).saveOrder(any(Order.class));
-        }
+        // Calling controller method
+        ResponseEntity<?> responseEntity = orderController.createOrder(new Order());
+
+        // Verifying the result
+        assertEquals(HttpStatus.BAD_REQUEST, responseEntity.getStatusCode());
+        assertEquals("Produto não disponível", responseEntity.getBody());
+    }
+
+    @Test
+    public void testGetCustomerByOrderId() {
+        // Mocking service response
+        CustomerDto mockCustomer = new CustomerDto();
+        when(orderService.getCustomerById(anyLong())).thenReturn(mockCustomer);
+
+        // Calling controller method
+        ResponseEntity<CustomerDto> responseEntity = orderController.getCustomerByOrderId(1);
+
+        // Verifying the result
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(mockCustomer, responseEntity.getBody());
+    }
+
+    @Test
+    public void testUpdateStatus() {
+        // Mocking service response
+        Order mockOrder = new Order();
+        when(orderService.updateStatus(anyLong(), anyInt())).thenReturn(mockOrder);
+
+        // Calling controller method
+        ResponseEntity<Order> responseEntity = orderController.updateStatus(1L, 1);
+
+        // Verifying the result
+        assertEquals(HttpStatus.OK, responseEntity.getStatusCode());
+        assertEquals(mockOrder, responseEntity.getBody());
     }
 
 }

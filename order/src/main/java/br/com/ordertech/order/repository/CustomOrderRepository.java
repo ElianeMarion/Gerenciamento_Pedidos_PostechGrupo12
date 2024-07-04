@@ -2,7 +2,7 @@ package br.com.ordertech.order.repository;
 
 import br.com.ordertech.order.enums.StatusEnum;
 import br.com.ordertech.order.enums.StatusOrderEnum;
-import br.com.ordertech.order.model.Order;
+import br.com.ordertech.order.models.Order;
 
 public interface CustomOrderRepository {
     void updateStatusOrder(Long orderId, StatusOrderEnum statusOrderEnum, StatusEnum status);

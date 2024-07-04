@@ -1,8 +1,8 @@
 package br.com.ordertech.order.repository;
 
 
-import br.com.ordertech.order.model.OrderLine;
-import org.springframework.data.mongodb.repository.MongoRepository;
+import br.com.ordertech.order.models.OrderLine;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface OrderLineRepository extends MongoRepository<OrderLine, Long> {
+public interface OrderLineRepository extends JpaRepository<OrderLine, Long> {
 }

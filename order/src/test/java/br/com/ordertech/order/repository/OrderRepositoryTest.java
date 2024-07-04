@@ -3,7 +3,7 @@ package br.com.ordertech.order.repository;
 
 import br.com.ordertech.order.Utils.OrderHelper;
 import br.com.ordertech.order.enums.StatusEnum;
-import br.com.ordertech.order.model.Order;
+import br.com.ordertech.order.models.Order;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,11 +58,11 @@ public class OrderRepositoryTest {
         Order order = new Order();
         order.setOrderId(1L);
         order.setStatus(StatusEnum.WAITING_SEPARATION);
-        order.setCustomerId(1);
+        order.setCustomerId(1l);
         order.setPurchaseDate(LocalDateTime.now());
         order.setDeliveryDate(null);
-        order.setDeliveryAddressId(1);
-        order.setOriginAddressId(1);
+        order.setDeliveryAddressId(1l);
+        order.setOriginAddressId(1l);
         order.setOrderLine(OrderHelper.addItens());
         return order;
     }

@@ -1,9 +1,14 @@
 package br.com.ordertech.order.Utils;
 
-import br.com.ordertech.order.dto.*;
+import br.com.ordertech.order.dto.CustomerDto;
+import br.com.ordertech.order.dto.OrderDto;
+import br.com.ordertech.order.dto.OrderLineDto;
+import br.com.ordertech.order.dto.ProductDto;
 import br.com.ordertech.order.enums.StatusEnum;
-import br.com.ordertech.order.model.Order;
-import br.com.ordertech.order.model.OrderLine;
+import br.com.ordertech.order.enums.StatusOrderEnum;
+import br.com.ordertech.order.models.Address;
+import br.com.ordertech.order.models.Order;
+import br.com.ordertech.order.models.OrderLine;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -27,39 +32,36 @@ public abstract class OrderHelper {
         return itens;
     }
 
+    public static List<OrderLineDto> addItensDto(){
+        List<OrderLineDto> orderLines = new ArrayList<>();
+        var orderLine = buildOrderLine();
+        orderLine.setPrice(BigDecimal.valueOf(10));
+        orderLines.add(orderLine);
+
+        return orderLines;
+    }
+
     public static Order createOrder() {
         Order order = new Order();
         order.setOrderId(1l);
         order.setStatus(StatusEnum.WAITING_DELIVERY);
-        order.setCustomerId(1);
+        order.setCustomerId(OrderHelper.buildCustomer().getCustomerId());
         order.setPurchaseDate(LocalDateTime.now().plusMinutes(1));
         order.setDeliveryDate(null);
-        order.setDeliveryAddressId(1);
-        order.setOriginAddressId(1);
+        order.setDeliveryAddressId(1l);
+        order.setOriginAddressId(1l);
         order.setOrderLine(OrderHelper.addItens());
         order.setTotalOrderValue(new BigDecimal(20));
         return order;
     }
 
-    public static AddressDto createAddress(){
+    public static Address createAddress(){
 
-        AddressDto address = new AddressDto(1,"Avenida Paulista", 54, "",
+        var address = new Address(1l,"Avenida Paulista", 54, "",
                 "São Paulo", "SP", "565656", 28394999);
         return address;
     }
 
-    public static AddressDto buildAddress() {
-        AddressDto dto = new AddressDto();
-        dto.setAddressID(1);
-        dto.setStreet("Rua Leblon");
-        dto.setNumber(10);
-        dto.setComplement("A");
-        dto.setCity("Embu das Artes");
-        dto.setState("SP");
-        dto.setZipCode("06826270");
-        dto.setSubSector(2);
-        return dto;
-    }
 
     public static ProductDto buildProduct() {
         ProductDto dto = new ProductDto();
@@ -73,22 +75,36 @@ public abstract class OrderHelper {
 
     public static CustomerDto buildCustomer() {
         CustomerDto dto = new CustomerDto();
-        dto.setCustomerID(1);
+        dto.setCustomerId(1L);
         dto.setName("João da Silva");
         dto.setCpf("95859119062");
-        dto.setPhoneNumber(11999992233l);
-        var address = buildAddress().getAddressID();
-        dto.setAddressId(address);
+        dto.setPhoneNumber("11999992233");
+        var address = createAddress();
+        dto.setAddress(address);
         return dto;
     }
 
     public static OrderLineDto buildOrderLine() {
-        OrderLineDto dto = new OrderLineDto();
-        dto.setOrderLineID(1L);
-        dto.setProduct(buildProduct());
-        dto.setQuantity(1);
-        dto.setPrice(BigDecimal.valueOf(1000.99));
-        return dto;
+       return OrderLineDto.builder()
+                .orderLineID(1L)
+                .product(buildProduct())
+                .quantity(1)
+                .price(BigDecimal.valueOf(1000.99))
+        .build();
+
+    }
+
+    public static OrderDto buildOrder(){
+        return OrderDto.builder()
+                .orderId(1L)
+                .statusOrder(StatusOrderEnum.WAITING_PAYMENT)
+                .status(StatusEnum.WAITING_DELIVERY)
+                .customerId(OrderHelper.buildCustomer().getCustomerId())
+                .deliveryDate(null)
+                .deliveryAddressId(OrderHelper.buildCustomer().getAddress().getAddressId())
+                .orderLine(OrderHelper.addItensDto())
+                .totalOrderValue(new BigDecimal(20))
+                .build();
     }
 
     public static OrderLine createOrderLine() {
@@ -122,9 +138,8 @@ public abstract class OrderHelper {
     }
 
     public static OrderDto createInvalidOrder() {
-
-        OrderDto order = new OrderDto();
-        order.setCustomerId(-1); // Definindo um ID de cliente inválido
+        OrderDto order = buildOrder();
+        order.setCustomerId(-1L); // Definindo um ID de cliente inválido
         return order;
     }
 }

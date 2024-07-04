@@ -1,7 +1,7 @@
 package br.com.ordertech.order.controller;
 
 import br.com.ordertech.order.dto.CustomerDto;
-import br.com.ordertech.order.model.Order;
+import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.service.OrderService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
@@ -42,7 +42,7 @@ public class OrderController {
 
     @GetMapping("/{id}/customer")
     public ResponseEntity<CustomerDto> getCustomerByOrderId(@PathVariable Integer id) {
-        Integer customerId = 1;
+        Long customerId = 1l;
         CustomerDto customer = orderService.getCustomerById(customerId);
         return ResponseEntity.ok(customer);
     }

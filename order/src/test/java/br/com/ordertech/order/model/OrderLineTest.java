@@ -2,6 +2,7 @@ package br.com.ordertech.order.model;
 
 
 import br.com.ordertech.order.exceptions.InvalidValueException;
+import br.com.ordertech.order.models.OrderLine;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
