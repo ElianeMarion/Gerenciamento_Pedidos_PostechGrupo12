@@ -17,7 +17,6 @@ import java.util.function.Consumer;
 @Slf4j
 public class PaymentCreatedEventListner implements Consumer<PaymentDto> {
 
-    private final PaymentRepository payments;
     private final OrderService orderService;
 
     @Override
@@ -36,7 +35,6 @@ public class PaymentCreatedEventListner implements Consumer<PaymentDto> {
             orderService.canceledOrderReturnStock(payment.getOrderId());
             log.info("Pedido cancelado por pagamento cancelado" + payment);
         }
-        //payments.save(payment);
 
 
     }
