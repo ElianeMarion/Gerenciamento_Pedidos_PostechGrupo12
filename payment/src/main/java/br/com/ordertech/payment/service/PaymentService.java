@@ -29,10 +29,17 @@ public class PaymentService {
         payment.setDatePayment(LocalDateTime.now());
         payment = paymentRepository.save(payment);
         paymentDto = mapper.map(payment, PaymentDto.class);
+
         paymentEventGateway.sendPaymentCreatedEvent(paymentDto);
         return paymentDto;
     }
 
+    public PaymentDto updatePayment(PaymentDto paymentDto){
+        Payment payment = paymentDto.toPayment(paymentDto);
+        payment = paymentRepository.save(payment);
+        paymentDto = mapper.map(payment, PaymentDto.class);
+        return paymentDto;
+    }
     public Payment findById(UUID id){
         return paymentRepository.findById(id)
                 .orElseThrow(()-> new PaymentNotFoundException("Pagamento não encontrado."));

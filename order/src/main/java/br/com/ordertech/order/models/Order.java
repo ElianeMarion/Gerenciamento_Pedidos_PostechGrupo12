@@ -13,6 +13,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Entity
 @Data
@@ -37,6 +38,8 @@ public class Order {
 
     @Transient
     private BigDecimal totalOrderValue;
+    @Transient
+    private UUID paymentId;
 
     @Enumerated(EnumType.STRING)
     private StatusOrderEnum statusOrder;

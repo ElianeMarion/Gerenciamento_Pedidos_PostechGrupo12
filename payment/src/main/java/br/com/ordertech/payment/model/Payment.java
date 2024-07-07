@@ -26,18 +26,24 @@ public class Payment {
 
 
     public Payment(){
-        this.paymentId = UUID.randomUUID();
+      //  this.paymentId = UUID.randomUUID();
         this.datePayment = LocalDateTime.now();
     }
 
     public Payment(Long orderId, BigDecimal value, StatusPaymentEnum status) {
-        this.paymentId = UUID.randomUUID();
+      //  this.paymentId = UUID.randomUUID();
         this.datePayment = LocalDateTime.now();
         this.orderId = orderId;
         this.value = value;
         this.status = status;
     }
 
+    public Payment(UUID paymentId, Long orderId, BigDecimal value, StatusPaymentEnum status) {
+        this.paymentId = paymentId;
+        this.orderId = orderId;
+        this.value = value;
+        this.status = status;
+    }
 
     public Payment(UUID paymentId, Long orderId, LocalDateTime datePayment,
                    BigDecimal value, StatusPaymentEnum status) {

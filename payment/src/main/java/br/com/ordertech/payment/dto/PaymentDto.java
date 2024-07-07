@@ -21,8 +21,10 @@ public class PaymentDto {
     private StatusPaymentEnum status;
 
     public Payment toPayment(PaymentDto paymentDto){
-        Payment payment = new Payment(paymentDto.getOrderId(),
-                paymentDto.value, paymentDto.getStatus());
+        Payment payment = new Payment(paymentDto.getPaymentId(),
+                paymentDto.getOrderId(),
+                paymentDto.getValue(),
+                paymentDto.getStatus());
         return payment;
     }
 }

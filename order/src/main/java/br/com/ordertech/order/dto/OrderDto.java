@@ -13,6 +13,7 @@ import lombok.extern.jackson.Jacksonized;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 @Data
 @Builder(toBuilder = true)
@@ -45,6 +46,7 @@ public class OrderDto {
 
     private BigDecimal totalOrderValue;
     private StatusOrderEnum statusOrder;
+    private UUID paymentId;
 
 
 }

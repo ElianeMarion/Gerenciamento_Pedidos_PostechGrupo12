@@ -1,5 +1,6 @@
 package br.com.ordertech.order.service;
 
+import br.com.ordertech.order.api.producer.PaymentEventProducer;
 import br.com.ordertech.order.dto.CustomerDto;
 import br.com.ordertech.order.dto.PaymentDto;
 import br.com.ordertech.order.dto.ProductDto;
@@ -9,7 +10,6 @@ import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.CustomerNotFoundException;
 import br.com.ordertech.order.exceptions.OrderNotFoundException;
 import br.com.ordertech.order.infra.CustomerClient;
-import br.com.ordertech.order.infra.OrderPaymentEventImpl;
 import br.com.ordertech.order.infra.StockPedidoProducer;
 import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.models.OrderLine;
@@ -31,14 +31,17 @@ public class OrderService {
     private final CustomerClient customerClient;
 
     private final OrderLineService orderLineService;
-    private final OrderPaymentEventImpl orderPaymentEvent;
+    private final PaymentEventProducer producer;
 
-    public OrderService(StockPedidoProducer stockPedidoProducer, OrderRepository orderRepository, CustomerClient customerClient, OrderLineService orderLineService, OrderPaymentEvent orderPaymentEvent, OrderPaymentEventImpl orderPaymentEvent1) {
+    public OrderService(StockPedidoProducer stockPedidoProducer, OrderRepository orderRepository,
+                        CustomerClient customerClient, OrderLineService orderLineService, PaymentEventProducer producer
+                        //OrderPaymentEvent orderPaymentEvent, OrderPaymentEventImpl orderPaymentEvent1
+                        ) {
         this.stockPedidoProducer = stockPedidoProducer;
         this.orderRepository = orderRepository;
         this.customerClient = customerClient;
         this.orderLineService = orderLineService;
-        this.orderPaymentEvent = orderPaymentEvent1;
+        this.producer = producer;
     }
 
     public List<Order> getAll(){
@@ -86,18 +89,11 @@ public class OrderService {
             PaymentDto paymentDto = new PaymentDto();
             paymentDto.setOrderId(order.getOrderId());
             paymentDto.setValue(totalOrderValue(order));
-            orderPaymentEvent.sendOrderToPayment(paymentDto);
+            order.setPaymentId(paymentDto.getPaymentId());
+            producer.sendPaymentUpdatedEvent(paymentDto);
 
             return order;
-              /* PixDTO pixDto = new PixDTO();
-                pixDto.setIdentifier(UUID.randomUUID().toString());
-                pixDto.setStatus(PixStatus.EM_PROCESSAMENTO);
-                pixDto.setValor(order.getTotalOrderValue());
-                var pix = pixDto.toPix(pixService.salvarPix(pixDto));*/
-            //var pix = pixDto.toPix(pixDto);
-            // Reserva de produtos
 
-            //   order.setPix(pix);
         }
         catch (Exception e){
             throw new RuntimeException("Estoque insuficiente");
@@ -109,7 +105,7 @@ public class OrderService {
     public Order updateStatusByStatusName(Long id, StatusEnum status){
         Order order = orderRepository.findById(id)
                 .orElseThrow(()-> new OrderNotFoundException("Pedido não encontrado"));
-
+        order.setStatusOrder(StatusOrderEnum.APPROVED);
         order.setStatus(status);
         orderRepository.save(order);
         return order;

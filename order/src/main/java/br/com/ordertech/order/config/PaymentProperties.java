@@ -7,5 +7,6 @@ import org.springframework.stereotype.Component;
 @Data
 public class PaymentProperties {
     private String paymentCreatedChannel = "paymentCreatedEventListner-out-0";
-    private String paymentOrderCreatedChannel = "order.v1.command.execute-orderPaymentEvent";
+    //Producer
+    private String paymentUpdatedChannel = "paymentUpdatedEventListner-in-0";
 }

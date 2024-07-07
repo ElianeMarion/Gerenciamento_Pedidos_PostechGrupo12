@@ -1,6 +1,7 @@
 package br.com.ordertech.order.models;
 
 import br.com.ordertech.order.exceptions.InvalidValueException;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,7 @@ public class OrderLine {
 
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
 
     public OrderLine(Long orderLineId, Long productId, int quantity) {

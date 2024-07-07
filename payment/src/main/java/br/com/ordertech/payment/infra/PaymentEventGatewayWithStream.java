@@ -22,8 +22,9 @@ public class PaymentEventGatewayWithStream implements PaymentEventGateway {
     @Override
     public void sendPaymentCreatedEvent(PaymentDto payment) {
 
-        log.info("App criado " + payment.getPaymentId());
+        log.info("Pagamento criado " + payment.getPaymentId());
   //      PaymentDto map = mapper.map(payment, PaymentDto.class);
+
         streamBridge.send(paymentProperties.getPaymentCreatedChannel(), payment);
 
     }

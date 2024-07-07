@@ -12,11 +12,15 @@ import java.util.UUID;
 
 @Builder
 @Data
-@NoArgsConstructor
+
 @AllArgsConstructor
 public class PaymentDto {
     private UUID paymentId;
     private Long orderId;
     private BigDecimal value;
     private StatusPaymentEnum status;
+
+    public PaymentDto(){
+        paymentId = UUID.randomUUID();
+    }
 }

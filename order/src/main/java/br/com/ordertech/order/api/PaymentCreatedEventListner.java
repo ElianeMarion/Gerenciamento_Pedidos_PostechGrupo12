@@ -36,7 +36,7 @@ public class PaymentCreatedEventListner implements Consumer<PaymentDto> {
             orderService.canceledOrderReturnStock(payment.getOrderId());
             log.info("Pedido cancelado por pagamento cancelado" + payment);
         }
-        payments.save(payment);
+        //payments.save(payment);
 
 
     }
