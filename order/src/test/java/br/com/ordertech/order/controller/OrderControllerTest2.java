@@ -79,7 +79,7 @@ public class OrderControllerTest2 {
         when(orderService.getCustomerById(anyLong())).thenReturn(mockCustomer);
 
         // Calling controller method
-        ResponseEntity<CustomerDto> responseEntity = orderController.getCustomerByOrderId(1);
+        ResponseEntity<CustomerDto> responseEntity = orderController.getCustomerByOrderId(1l);
 
         // Verifying the result
         assertEquals(HttpStatus.OK, responseEntity.getStatusCode());

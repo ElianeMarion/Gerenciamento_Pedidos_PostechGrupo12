@@ -1,20 +1,19 @@
 package br.com.ordertech.order.service;
 
 import br.com.ordertech.order.api.producer.PaymentEventProducer;
-import br.com.ordertech.order.dto.CustomerDto;
-import br.com.ordertech.order.dto.PaymentDto;
-import br.com.ordertech.order.dto.ProductDto;
-import br.com.ordertech.order.dto.UpdateProductStock;
+import br.com.ordertech.order.dto.*;
 import br.com.ordertech.order.enums.StatusEnum;
 import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.CustomerNotFoundException;
 import br.com.ordertech.order.exceptions.OrderNotFoundException;
 import br.com.ordertech.order.infra.CustomerClient;
+import br.com.ordertech.order.infra.PaymentClient;
 import br.com.ordertech.order.infra.StockPedidoProducer;
 import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.models.OrderLine;
 import br.com.ordertech.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -32,9 +31,10 @@ public class OrderService {
 
     private final OrderLineService orderLineService;
     private final PaymentEventProducer producer;
+    private final PaymentClient paymentClient;
 
     public OrderService(StockPedidoProducer stockPedidoProducer, OrderRepository orderRepository,
-                        CustomerClient customerClient, OrderLineService orderLineService, PaymentEventProducer producer
+                        CustomerClient customerClient, OrderLineService orderLineService, PaymentEventProducer producer, PaymentClient paymentClient
                         //OrderPaymentEvent orderPaymentEvent, OrderPaymentEventImpl orderPaymentEvent1
                         ) {
         this.stockPedidoProducer = stockPedidoProducer;
@@ -42,6 +42,7 @@ public class OrderService {
         this.customerClient = customerClient;
         this.orderLineService = orderLineService;
         this.producer = producer;
+        this.paymentClient = paymentClient;
     }
 
     public List<Order> getAll(){
@@ -90,7 +91,8 @@ public class OrderService {
             paymentDto.setOrderId(order.getOrderId());
             paymentDto.setValue(totalOrderValue(order));
             order.setPaymentId(paymentDto.getPaymentId());
-            producer.sendPaymentUpdatedEvent(paymentDto);
+            //producer.sendPaymentUpdatedEvent(paymentDto);
+            paymentClient.savePayment(paymentDto);
 
             return order;
 
@@ -158,4 +160,8 @@ public class OrderService {
             this.stockPedidoProducer.incrementStockProduct(productStock);
         });
     }
+
+
+
+
 }

@@ -1,0 +1,5 @@
+
+L
+java:S5838Y"1Use assertThat(actual).hasSize(expected) instead.(šÇ†Ýþÿÿÿÿ
+y
+java:S5778Ä"bRefactor the code of the lambda to have only one invocation possibly throwing a runtime exception.(„ò„î

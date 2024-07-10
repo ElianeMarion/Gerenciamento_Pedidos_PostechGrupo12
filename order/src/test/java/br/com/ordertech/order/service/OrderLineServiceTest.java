@@ -58,7 +58,7 @@ public class OrderLineServiceTest {
         }
 
         @Test
-        void testGetOrderLineById_OrderExists() {
+        void findByOderLineId_OrderExists() {
             var orderLine = OrderHelper.createOrderLine();
             when(orderLineRepository.findById(anyLong())).thenReturn(Optional.of(orderLine));
 
@@ -69,7 +69,7 @@ public class OrderLineServiceTest {
         }
 
         @Test
-        void testGetOrderLineById_OrderLineNotExists() {
+        void findByOderLineId_OrderLineNotExists() {
             when(orderLineRepository.findById(anyLong())).thenReturn(Optional.empty());
 
             assertThatThrownBy(() -> orderLineService.findByOderLineId(1L))
@@ -80,7 +80,7 @@ public class OrderLineServiceTest {
         @Nested
         class SaveOrder {
             @Test
-            void testSaveOrderLine_Success() {
+            void createOrderLine_test_Success() {
 
                 var orderLine = OrderHelper.createOrderLine();
                 when(orderLineRepository.save(any(OrderLine.class))).thenReturn(orderLine);
@@ -95,7 +95,7 @@ public class OrderLineServiceTest {
         }
 
         @Test
-        void testUpdateOrderLine() {
+        void updateOrderLine_test() {
             OrderLine updatedOrderLine = OrderHelper.createOrderLine();
 
             when(orderLineRepository.findById(1L)).thenReturn(Optional.of(updatedOrderLine));
