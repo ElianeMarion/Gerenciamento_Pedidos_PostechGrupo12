@@ -1,0 +1,36 @@
+version: '3'
+
+networks:
+  default-network:
+    driver: bridge
+services:
+  postgres:
+    image: postgres:latest
+    container_name: postgres-container
+    environment:
+      POSTGRES_DB: payment
+      POSTGRES_USER: postech
+      POSTGRES_PASSWORD: postech
+    networks:
+      - default-network
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postrgresql/data
+  rabbitmq:
+    image: rabbitmq:3.7.8-management
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    networks:
+      - default-network
+volumes:
+  postgres_data:
