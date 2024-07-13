@@ -1,0 +1,25 @@
+{
+  "$schema": "https://json-schema.org/draft/2019-09/schema",
+  "$id": "http://example.com/example.json",
+  "type": "object",
+  "required": [
+    "courierID",
+    "courierName",
+    "status",
+    "lastDelivery"
+  ],
+  "properties": {
+    "courierID": {
+      "type": "string"
+    },
+    "courierName": {
+      "type": "string"
+    },
+    "status": {
+      "type": "string"
+    },
+    "lastDelivery": {
+      "type": "null"
+    }
+  }
+}
