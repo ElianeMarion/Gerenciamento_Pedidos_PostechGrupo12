@@ -35,6 +35,9 @@ public class ConfigGateway {
                         .and().not(p -> p.path("/load/api/**"))
 //                      .filters(f -> f.stripPrefix(1))
                         .uri(String.format("http://%s:8085", urlBase)))
+                 .route("payments", r -> r.path("/payments/**")
+                         .and().not(p -> p.path("/payments/api/**"))
+                         .uri(String.format("http://%s:8086", urlBase)))
                  .build();
     }
 }

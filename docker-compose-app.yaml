@@ -1,47 +1,6 @@
 services:
 
-  mongodb_delivery:
-    image: "mongo:latest"
-    container_name: mongodbdelivery
-    restart: always
-    ports:
-      - "5435:27017"
-    environment:
-      MONGO_INITDB_ROOT_USERNAME: delivery
-      MONGO_INITDB_ROOT_PASSWORD: delivery2024
-    volumes:
-      - mongodb_data_delivery:/data/db
-      - ./delivery/initdb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:database
-    networks:
-      - network_app_manager_sale_order
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
-  app_delivery:
-    image: "delivery:latest"
-    build:
-      ./delivery
-    container_name: appdelivery
-    restart: always
-    ports:
-      - "8084:8084"
-    environment:
-      - server.port=8084
-      - spring.jpa.defer-datasource-initialization=true
-      - spring.data.mongodb.host=host.docker.internal
-      - spring.data.mongodb.port=5435
-      - spring.data.mongodb.username=delivery
-      - spring.data.mongodb.password=delivery2024
-      - spring.data.mongodb.authentication-database=admin
-      - spring.data.mongodb.database=deliverydb
-      - URL_GOOGLE_ROUTE_API=https://routes.googleapis.com/directions/v2:computeRoutes
-      - KEY_GOOGLE_ROUTE_API=AIzaSyB4PI4xRTqgbXBw5bAwtxGn5XIDUAQRNZo
-      - URL_MS_ORDER=http://localhost:8080/order/api
-    networks:
-      - network_app_manager_sale_order
-    extra_hosts:
-      - "host.docker.internal:host-gateway"
-
+# MICROSSERVIÇO GATEWAY
   app_gateway:
     image: "gateway:latest"
     build:
@@ -58,6 +17,7 @@ services:
       - "host.docker.internal:host-gateway"
 
 
+# MICROSSERVIÇO CUSTOMER MANAGEMENT
   app_customer:
     image: 'customermanagement:dev'
     build:
@@ -81,7 +41,7 @@ services:
     image: 'postgres:latest'
     container_name: 'customerdb'
     ports:
-      - "5431:5432"
+      - "5430:5432"
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=pswcustomer
@@ -89,6 +49,149 @@ services:
     networks:
       - network_app_manager_sale_order
 
+
+
+# MICROSSERVIÇO PAYMENT
+  app_payment:
+    image: "payment:latest"
+    build:
+      ./payment
+    depends_on:
+      - postgres_payment
+      - rabbitmq_payment_order
+    environment:
+      - spring.datasource.driverClassName=org.postgresql.Driver
+      - spring.datasource.url=jdbc:postgresql://postgres_payment:5432/payment
+      - spring.datasource.username=postech
+      - spring.datasource.password=postech
+      - spring.rabbitmq.host=rabbitmq_payment
+      - spring.rabbitmq.port=5672
+      - spring.rabbitmq.username=rabbitmq
+      - spring.rabbitmq.password=rabbitmq
+    ports:
+      - "8086:8086"
+    networks:
+      - network_app_manager_sale_order
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  postgres_payment:
+    image: postgres:latest
+    container_name: postgres-payment-container
+    environment:
+      POSTGRES_DB: payment
+      POSTGRES_USER: postech
+      POSTGRES_PASSWORD: postech
+    networks:
+      - network_app_manager_sale_order
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_payment_data:/var/lib/postrgresql/data
+
+
+# MICROSSERVIÇO ORDER
+  app_order:
+    image: "order:latest"
+    build:
+      ./order
+    depends_on:
+      - postgres_order
+      - rabbitmq_payment_order
+    environment:
+      - spring.datasource.driverClassName=org.postgresql.Driver
+      - spring.datasource.url=jdbc:postgresql://postgres_order:5432/order
+      - spring.datasource.username=postech
+      - spring.datasource.password=postech
+      - spring.rabbitmq.host=rabbitmq_payment_order
+      - spring.rabbitmq.port=5672
+      - spring.rabbitmq.username=rabbitmq
+      - spring.rabbitmq.password=rabbitmq
+    ports:
+      - "8083:8083"
+    networks:
+      - network_app_manager_sale_order
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  postgres_order:
+    image: postgres:latest
+    container_name: postgres-order-container
+    environment:
+      POSTGRES_DB: order
+      POSTGRES_USER: postech
+      POSTGRES_PASSWORD: postech
+    networks:
+      - network_app_manager_sale_order
+    ports:
+      - "5434:5432"
+    volumes:
+      - postgres_order_data:/var/lib/postrgresql/data
+
+
+  rabbitmq_payment_order:
+    image: rabbitmq:3.7.8-management
+    container_name: rabbitmq-payment-order-container
+    ports:
+      - 5672:5672
+      - 15672:15672
+    environment:
+      - RABBITMQ_DEFAULT_USER=rabbitmq
+      - RABBITMQ_DEFAULT_PASS=rabbitmq
+    healthcheck:
+      test: [ "CMD", "rabbitmqctl", "status" ]
+      interval: 20s
+      timeout: 5s
+      retries: 10
+    networks:
+      - network_app_manager_sale_order
+
+
+
+# MICROSSERVIÇO DELIVERY
+  app_delivery:
+    image: "delivery:latest"
+    build:
+      ./delivery
+    container_name: appdelivery
+    depends_on:
+      - mongodb_delivery
+    restart: always
+    ports:
+      - "8084:8084"
+    environment:
+      - server.port=8084
+      - spring.jpa.defer-datasource-initialization=true
+      - spring.data.mongodb.host=host.docker.internal
+      - spring.data.mongodb.port=5435
+      - spring.data.mongodb.username=delivery
+      - spring.data.mongodb.password=delivery2024
+      - spring.data.mongodb.authentication-database=admin
+      - spring.data.mongodb.database=deliverydb
+      - URL_GOOGLE_ROUTE_API=https://routes.googleapis.com/directions/v2:computeRoutes
+      - KEY_GOOGLE_ROUTE_API=AIzaSyB4PI4xRTqgbXBw5bAwtxGn5XIDUAQRNZo
+      - URL_MS_ORDER=http://localhost:8080/order/api
+    networks:
+      - network_app_manager_sale_order
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  mongodb_delivery:
+    image: "mongo:latest"
+    container_name: mongodbdelivery
+    restart: always
+    ports:
+      - "5435:27017"
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: delivery
+      MONGO_INITDB_ROOT_PASSWORD: delivery2024
+    volumes:
+      - mongodb_data_delivery:/data/db
+      - ./delivery/initdb/mongo-init.js:/docker-entrypoint-initdb.d/mongo-init.js:database
+    networks:
+      - network_app_manager_sale_order
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
 
 
 
@@ -100,3 +203,5 @@ networks:
 
 volumes:
   mongodb_data_delivery:
+  postgres_payment_data:
+  postgres_order_data:
