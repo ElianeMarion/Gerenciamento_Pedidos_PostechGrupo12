@@ -1,0 +1,16 @@
+spring:
+  devtools:
+    restart:
+      enabled: true
+  datasource:
+    username: ${MYSQL_USER}
+    password: ${MYSQL_PASSWORD}
+    url: jdbc:mysql://database:${MYSQL_EXTERNAL_PORT}/${MYSQL_DATABASE}?createDatabaseIfNotExist=true
+  jpa:
+    properties:
+      hibernate:
+        show_sql: true
+        format_sql: true
+        default_schema: ${MYSQL_DATABASE}
+    hibernate:
+      ddl-auto: update
