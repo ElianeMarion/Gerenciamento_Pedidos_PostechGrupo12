@@ -71,7 +71,7 @@ services:
     image: mysql:8.0.36
     env_file: ./product/env/.env
     volumes:
-      - ./mysql-data-product:/var/lib/mysql
+      - mysql-data-product:/var/lib/mysql
     restart: unless-stopped
     ports:
       - 3306:3306
