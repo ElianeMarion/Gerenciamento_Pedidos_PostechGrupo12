@@ -3,7 +3,7 @@
 ## API Reference
 Need application started
 
-[Swagger](http://localhost:8080/swagger-ui/index.html#/) 
+[Swagger](http://localhost:8081/swagger-ui/index.html#/) 
 
 ## Build the application and its containers
 
@@ -59,5 +59,15 @@ make system-test
 allure serve target/allure-results
 ```
 
+## Exemplos de requisição
 
+Cadastrar um cliente
+````
+curl -X "POST" --location "http://localhost:8081/customer" --header "accept: */*" --header "Content-Type: application/json" --data "{\"name\":\"Maria do Rosário\",\"cpf\":\"17523716075\",\"phoneNumber\":\"11979974811\",\"address\":{\"street\":\"Rua Leblon\",\"number\":20,\"city\":\"Embu das Artes\",\"state\":\"São Paulo\",\"zipcode\":\"06826270\",\"subSector\":2}}"
+````
+
+Buscar cliente por ID
+````
+curl -X "GET" "http://localhost:8081/customer/1" -H "accept: */*"
+````
 

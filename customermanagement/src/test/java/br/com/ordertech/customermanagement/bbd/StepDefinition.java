@@ -18,7 +18,7 @@ public class StepDefinition {
     private Response response;
     private CustomerDto customerDtoResponse;
 
-    private final String ENDPOINT_API_MENSAGEM = "http://localhost:8080/customer";
+    private final String ENDPOINT_API_MENSAGEM = "http://localhost:8081/customer";
 
     @When("register new customer")
     public CustomerDto register_new_customer() {

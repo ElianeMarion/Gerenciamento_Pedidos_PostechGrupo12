@@ -58,6 +58,40 @@ services:
       - "host.docker.internal:host-gateway"
 
 
+  app_customer:
+    image: 'customermanagement:dev'
+    build:
+      context: ./customermanagement
+    container_name: 'appcustomermanagement'
+    depends_on:
+      - db_customer
+    ports:
+      - "8081:8081"
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://db_customer:5432/customer
+      - SPRING_DATASOURCE_NAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=pswcustomer
+      - SPRING_JPA_HIBERNATE_DDL_AUTO=create-drop
+    networks:
+      - network_app_manager_sale_order
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  db_customer:
+    image: 'postgres:latest'
+    container_name: 'customerdb'
+    ports:
+      - "5431:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=pswcustomer
+      - POSTGRES_DB=customer
+    networks:
+      - network_app_manager_sale_order
+
+
+
+
 
 networks:
   network_app_manager_sale_order:
