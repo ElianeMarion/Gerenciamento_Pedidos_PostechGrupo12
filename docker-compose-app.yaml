@@ -50,6 +50,39 @@ services:
       - network_app_manager_sale_order
 
 
+# MICROSSERVIÇO PRODUCT
+  app_product:
+    image: 'product:latest'
+    build:
+      context: ./product
+    container_name: 'appproduct'
+    env_file: ./product/env/.env
+    restart: no
+    ports:
+      - 8082:8080
+      - 5005:5005
+    depends_on:
+      database_product:
+        condition: service_healthy
+    networks:
+      - network_app_manager_sale_order
+
+  database_product:
+    image: mysql:8.0.36
+    env_file: ./product/env/.env
+    volumes:
+      - ./mysql-data-product:/var/lib/mysql
+    restart: unless-stopped
+    ports:
+      - 3306:3306
+    healthcheck:
+      test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - network_app_manager_sale_order
+
 
 # MICROSSERVIÇO PAYMENT
   app_payment:
@@ -205,3 +238,4 @@ volumes:
   mongodb_data_delivery:
   postgres_payment_data:
   postgres_order_data:
+  mysql-data-product:
