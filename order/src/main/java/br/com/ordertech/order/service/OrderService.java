@@ -7,6 +7,7 @@ import br.com.ordertech.order.enums.StatusOrderEnum;
 import br.com.ordertech.order.exceptions.CustomerNotFoundException;
 import br.com.ordertech.order.exceptions.OrderNotFoundException;
 import br.com.ordertech.order.infra.CustomerClient;
+import br.com.ordertech.order.infra.OrderDelivery;
 import br.com.ordertech.order.infra.PaymentClient;
 import br.com.ordertech.order.infra.StockPedidoProducer;
 import br.com.ordertech.order.models.Order;
@@ -28,21 +29,19 @@ public class OrderService {
     private final OrderRepository orderRepository;
 
     private final CustomerClient customerClient;
-
     private final OrderLineService orderLineService;
-    private final PaymentEventProducer producer;
     private final PaymentClient paymentClient;
+    private final OrderDelivery orderDelivery;
 
     public OrderService(StockPedidoProducer stockPedidoProducer, OrderRepository orderRepository,
-                        CustomerClient customerClient, OrderLineService orderLineService, PaymentEventProducer producer, PaymentClient paymentClient
-                        //OrderPaymentEvent orderPaymentEvent, OrderPaymentEventImpl orderPaymentEvent1
+                        CustomerClient customerClient, OrderLineService orderLineService, PaymentEventProducer producer, PaymentClient paymentClient, OrderDelivery orderDelivery
                         ) {
         this.stockPedidoProducer = stockPedidoProducer;
         this.orderRepository = orderRepository;
         this.customerClient = customerClient;
         this.orderLineService = orderLineService;
-        this.producer = producer;
         this.paymentClient = paymentClient;
+        this.orderDelivery = orderDelivery;
     }
 
     public List<Order> getAll(){
@@ -111,6 +110,9 @@ public class OrderService {
         order.setStatusOrder(StatusOrderEnum.APPROVED);
         order.setStatus(status);
         orderRepository.save(order);
+        CustomerDto customerDto = customerClient.getCustomerById(order.getCustomerId());
+        OrderDeliveryDto deliveryDto = new OrderDeliveryDto(order, customerDto.getAddress());
+        orderDelivery.saveOrderDelivery(deliveryDto);
         return order;
     }
 

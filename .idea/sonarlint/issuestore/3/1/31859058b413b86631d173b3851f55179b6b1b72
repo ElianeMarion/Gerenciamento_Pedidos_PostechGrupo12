@@ -1,6 +1,8 @@
 
-	java:S112e"FDefine and throw a dedicated exception instead of using a generic one.(†ŞğÂøÿÿÿÿ8É´Ÿï‰2J$305b7b9b-4d6a-4a5f-b043-2ed41e25412b
-	java:S112g"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8Ê´Ÿï‰2J$2ddc4609-6d4c-4e5e-ac1b-3e689346587e
+	java:S112e"FDefine and throw a dedicated exception instead of using a generic one.(†ŞğÂøÿÿÿÿ8ÔÙ´¶‹2J$64f007e9-b82c-4079-a95a-4d966c3ad183
+	java:S112g"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8ÔÙ´¶‹2J$a647e62c-a5d9-40e3-b6ea-95f9aa103dab
 š
-java:S1192m"WDefine a constant instead of duplicating this literal "Pedido nÃ£o encontrado" 3 times.(Øæ–¦8Î´Ÿï‰2J$62614471-ac9c-45f0-aa75-d3eb06990c50
-]	java:S125^"<This block of commented-out lines of code should be removed.(öÂ™²ùÿÿÿÿ8ı•¡ï‰2
+java:S1192m"WDefine a constant instead of duplicating this literal "Pedido nÃ£o encontrado" 3 times.(Øæ–¦8×Ù´¶‹2J$02eb0343-a67d-49cb-9528-52f91224cb5c
+w
+java:S1172%"/Remove this unused method parameter "producer".(Ò»ê˜ûÿÿÿÿ8ÜŒ¼¶‹2J$6ee68034-9ca3-4e21-af69-68f561aa7316
+ƒ	java:S125]"<This block of commented-out lines of code should be removed.(öÂ™²ùÿÿÿÿ8åÙ´¶‹2J$015fbe91-cea8-4bb5-9de6-c86b06d62143
