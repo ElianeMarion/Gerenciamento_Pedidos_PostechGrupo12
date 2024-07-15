@@ -52,7 +52,7 @@ services:
 
 # MICROSSERVIÇO PRODUCT
   app_product:
-    image: 'product:latest'
+    image: 'product:prod'
     build:
       context: ./product
     container_name: 'appproduct'
