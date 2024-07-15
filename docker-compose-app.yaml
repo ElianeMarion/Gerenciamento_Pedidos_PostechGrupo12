@@ -1,6 +1,6 @@
 services:
 
-  # MICROSSERVIÇO GATEWAY
+# MICROSSERVIÇO GATEWAY
   app_gateway:
     image: "gateway:latest"
     build:
@@ -17,7 +17,7 @@ services:
       - "host.docker.internal:host-gateway"
 
 
-  # MICROSSERVIÇO CUSTOMER MANAGEMENT
+# MICROSSERVIÇO CUSTOMER MANAGEMENT
   app_customer:
     image: 'customermanagement:dev'
     build:
@@ -50,7 +50,7 @@ services:
       - network_app_manager_sale_order
 
 
-  # MICROSSERVIÇO PRODUCT
+# MICROSSERVIÇO PRODUCT
   app_product:
     image: 'product:prod'
     build:
@@ -84,7 +84,7 @@ services:
       - network_app_manager_sale_order
 
 
-  # MICROSSERVIÇO PAYMENT
+# MICROSSERVIÇO PAYMENT
   app_payment:
     image: "payment:latest"
     build:
@@ -123,7 +123,7 @@ services:
       - postgres_payment_data:/var/lib/postrgresql/data
 
 
-  # MICROSSERVIÇO ORDER
+# MICROSSERVIÇO ORDER
   app_order:
     image: "order:latest"
     build:
@@ -143,6 +143,7 @@ services:
       - URL_CUSTOMER=http://host.docker.internal:8081/customer
       - URL_PAYMENTS=http://host.docker.internal:8086/payments
       - URL_PRODUCT=http://host.docker.internal:8082/product
+      - URL_DELIVERY=http://host.docker.internal:8084/delivery
     ports:
       - "8083:8083"
     networks:
@@ -184,7 +185,7 @@ services:
 
 
 
-  # MICROSSERVIÇO DELIVERY
+# MICROSSERVIÇO DELIVERY
   app_delivery:
     image: "delivery:latest"
     build:
@@ -228,6 +229,38 @@ services:
       - network_app_manager_sale_order
     extra_hosts:
       - "host.docker.internal:host-gateway"
+
+
+
+
+# MICROSSERVIÇO BATCH
+  postgres_batch:
+    image: 'postgres:latest'
+    container_name: "postgres-batch-fiap"
+    environment:
+      - 'POSTGRES_DB=mydatabase'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=myuser'
+    ports:
+      - '5436:5432'
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  app_spring_batch:
+    image: 'batch:latest'
+    build:
+      context: ./batch
+    container_name: "appspringbatch"
+    depends_on:
+      - postgres_batch
+    ports:
+      - '8087:8087'
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_batch:5432/mydatabase'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+    volumes:
+      - ./temp:/app/tmp
 
 
 

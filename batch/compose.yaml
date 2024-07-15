@@ -1,0 +1,27 @@
+version: '3.8'
+services:
+  postgres_batch:
+    image: 'postgres:latest'
+    container_name: "postgres-batch-fiap"
+    environment:
+      - 'POSTGRES_DB=mydatabase'
+      - 'POSTGRES_PASSWORD=secret'
+      - 'POSTGRES_USER=myuser'
+    ports:
+      - '5436:5432'
+
+  app_spring_batch:
+    image: 'batch:latest'
+    build:
+      context: .
+    container_name: "appspringbatch"
+    depends_on:
+      - postgres_batch
+    ports:
+      - '8087:8087'
+    environment:
+      - 'SPRING_DATASOURCE_URL=jdbc:postgresql://postgres_batch:5432/mydatabase'
+      - 'SPRING_DATASOURCE_USERNAME=myuser'
+      - 'SPRING_DATASOURCE_PASSWORD=secret'
+    volumes:
+    - ./temp:/app/tmp
