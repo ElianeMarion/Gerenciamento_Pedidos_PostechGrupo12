@@ -26,7 +26,7 @@ public class ProductService {
 
     public ResponseResult<?> addProduct(AddProduct addProduct) {
         try {
-            productRepository.findByName(addProduct.getName()).orElseThrow(ProductFound::new);
+            productRepository.findByName(addProduct.getName());
             Product product = new Product(
                 null,
                 addProduct.getName(),
