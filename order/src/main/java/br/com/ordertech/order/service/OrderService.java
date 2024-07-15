@@ -105,7 +105,7 @@ public class OrderService {
     }
 
     public Order updateStatusByStatusName(Long id, StatusEnum status){
-        Order order = orderRepository.findById(id)
+        Order order = orderRepository.findByIdWithOrderLines(id)
                 .orElseThrow(()-> new OrderNotFoundException("Pedido não encontrado"));
         order.setStatusOrder(StatusOrderEnum.APPROVED);
         order.setStatus(status);

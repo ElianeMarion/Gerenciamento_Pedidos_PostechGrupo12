@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 
-@FeignClient(value = "delivey", url="${URL_DELIVERY}")
+@FeignClient(value = "delivery", url="${URL_DELIVERY}")
 public interface OrderDelivery {
 
     @PostMapping
