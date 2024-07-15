@@ -37,10 +37,25 @@ Busca de pagamento
 curl -X "GET" --location "http://localhost:8080/payments/3e4e11d1-7882-45f1-a3fb-0a8d9a613fcf"
 ````
 
-
-
 ### Microsserviço order
 
+Criar Pedido
+````
+curl -X "POST" --location "http://localhost:8083/orders" --header "Content-Type: application/json" --data '{\
+"customerId": 1,
+    "deliveryDate": null,
+    "status": "WAITING_SEPARATION",
+    "deliveryAddressId": 1,
+    "originAddressId": 1,
+    "statusOrder": "WAITING_PAYMENT",
+    "orderLine": [
+        {
+            "productId": 1,
+            "quantity": 1
+        }
+    ]
+}'
+````
 Listar pedidos
 ````
 curl -X "GET" --location "http://localhost:8083/orders"
