@@ -1,7 +1,7 @@
 services:
   database:
     image: mysql:8.0.36
-    env_file: env/.env
+    env_file: ./env/.env
     volumes:
       - ./mysql-data:/var/lib/mysql
     restart: unless-stopped
