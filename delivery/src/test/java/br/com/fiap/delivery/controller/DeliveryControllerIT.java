@@ -157,7 +157,7 @@ class DeliveryControllerIT {
             String status = String.valueOf(Status.IN_TRANSIT.getCode());
             String id = String.valueOf(orderDelivery.getOrder().getOrderID());
 
-            WireMock.stubFor(WireMock.put(urlPathTemplate("/order/api/{id}/{status}"))
+            WireMock.stubFor(WireMock.put(urlPathTemplate("/orders/{id}/{status}"))
                             .withPathParam("id", equalTo(id))
                             .withPathParam("status", equalTo(status))
                     .willReturn(WireMock.aResponse()
@@ -181,7 +181,7 @@ class DeliveryControllerIT {
             String status = String.valueOf(Status.DELIVERY_COMPLETED.getCode());
             String id = String.valueOf(orderDelivery.getOrder().getOrderID());
 
-            WireMock.stubFor(WireMock.put(urlPathTemplate("/order/api/{id}/{status}"))
+            WireMock.stubFor(WireMock.put(urlPathTemplate("/orders/{id}/{status}"))
                     .withPathParam("id", equalTo(id))
                     .withPathParam("status", equalTo(status))
                     .willReturn(WireMock.aResponse()
@@ -240,7 +240,7 @@ class DeliveryControllerIT {
     }
 
     public static ValidatableResponse deliveryLeft(String courierID) {
-        WireMock.stubFor(WireMock.put(urlPathTemplate("/order/api/{id}/{status}"))
+        WireMock.stubFor(WireMock.put(urlPathTemplate("/orders/{id}/{status}"))
                 .withPathParam("id", matching("[0-9]+"))
                 .withPathParam("status", equalTo(String.valueOf(Status.IN_TRANSIT.getCode())))
                 .willReturn(WireMock.aResponse()

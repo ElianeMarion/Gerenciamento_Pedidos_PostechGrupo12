@@ -1,6 +1,6 @@
 services:
 
-# MICROSSERVIÇO GATEWAY
+  # MICROSSERVIÇO GATEWAY
   app_gateway:
     image: "gateway:latest"
     build:
@@ -17,7 +17,7 @@ services:
       - "host.docker.internal:host-gateway"
 
 
-# MICROSSERVIÇO CUSTOMER MANAGEMENT
+  # MICROSSERVIÇO CUSTOMER MANAGEMENT
   app_customer:
     image: 'customermanagement:dev'
     build:
@@ -50,7 +50,7 @@ services:
       - network_app_manager_sale_order
 
 
-# MICROSSERVIÇO PRODUCT
+  # MICROSSERVIÇO PRODUCT
   app_product:
     image: 'product:prod'
     build:
@@ -84,7 +84,7 @@ services:
       - network_app_manager_sale_order
 
 
-# MICROSSERVIÇO PAYMENT
+  # MICROSSERVIÇO PAYMENT
   app_payment:
     image: "payment:latest"
     build:
@@ -97,7 +97,7 @@ services:
       - spring.datasource.url=jdbc:postgresql://postgres_payment:5432/payment
       - spring.datasource.username=postech
       - spring.datasource.password=postech
-      - spring.rabbitmq.host=rabbitmq_payment
+      - spring.rabbitmq.host=rabbitmq_payment_order
       - spring.rabbitmq.port=5672
       - spring.rabbitmq.username=rabbitmq
       - spring.rabbitmq.password=rabbitmq
@@ -123,7 +123,7 @@ services:
       - postgres_payment_data:/var/lib/postrgresql/data
 
 
-# MICROSSERVIÇO ORDER
+  # MICROSSERVIÇO ORDER
   app_order:
     image: "order:latest"
     build:
@@ -140,6 +140,9 @@ services:
       - spring.rabbitmq.port=5672
       - spring.rabbitmq.username=rabbitmq
       - spring.rabbitmq.password=rabbitmq
+      - URL_CUSTOMER=http://host.docker.internal:8081/customer
+      - URL_PAYMENTS=http://host.docker.internal:8086/payments
+      - URL_PRODUCT=http://host.docker.internal:8082/product
     ports:
       - "8083:8083"
     networks:
@@ -181,7 +184,7 @@ services:
 
 
 
-# MICROSSERVIÇO DELIVERY
+  # MICROSSERVIÇO DELIVERY
   app_delivery:
     image: "delivery:latest"
     build:
@@ -203,7 +206,7 @@ services:
       - spring.data.mongodb.database=deliverydb
       - URL_GOOGLE_ROUTE_API=https://routes.googleapis.com/directions/v2:computeRoutes
       - KEY_GOOGLE_ROUTE_API=AIzaSyB4PI4xRTqgbXBw5bAwtxGn5XIDUAQRNZo
-      - URL_MS_ORDER=http://localhost:8080/order/api
+      - URL_MS_ORDER=http://host.docker.internal:8083/orders
     networks:
       - network_app_manager_sale_order
     extra_hosts:

@@ -98,6 +98,7 @@ public class OrderService {
 
         }
         catch (Exception e){
+            log.error(e.getMessage());
             throw new RuntimeException("Estoque insuficiente");
         } catch (CustomerNotFoundException e) {
             throw new RuntimeException(e);
