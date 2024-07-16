@@ -61,11 +61,10 @@ public class OrderService {
             order.setPurchaseDate(LocalDateTime.now());
             order.setDeliveryDate(null);
             order.setStatus(StatusEnum.WAITING_SEPARATION);
-            CustomerDto customer = getCustomerById(1L);
+            CustomerDto customer = customerClient.getCustomerById(order.getCustomerId());
             if(customer == null)
                 throw new CustomerNotFoundException("Cliente não retornado");
 
-            order.setCustomerId(customer.getCustomerID());
             order.setDeliveryAddressId(customer.getAddress().getAddressID());
             order.setOriginAddressId(1L);
             order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
@@ -180,6 +179,7 @@ public class OrderService {
         List<ProductDto> products = stockPedidoProducer.getAll();
 
         order.getOrderLine().forEach(orderLine-> {
+
             Optional<ProductDto> foundProduct = products.stream()
                     .filter(product -> product.getProductID().equals(orderLine.getProductId()))
                     .findFirst();

@@ -18,7 +18,7 @@ public class ProductTest {
 
         Product product = new Product(productID, name, description, price, quantityStock);
 
-        assertThat(product.getProductID()).isEqualTo(productID);
+        assertThat(product.getProductId()).isEqualTo(productID);
         assertThat(product.getName()).isEqualTo(name);
         assertThat(product.getDescription()).isEqualTo(description);
         assertThat(product.getPrice()).isEqualTo(price);
@@ -35,13 +35,13 @@ public class ProductTest {
         BigDecimal price = BigDecimal.valueOf(99.99);
         Integer quantityStock = 100;
 
-        product.setProductID(productID);
+        product.setProductId(productID);
         product.setName(name);
         product.setDescription(description);
         product.setPrice(price);
         product.setQuantityStock(quantityStock);
 
-        assertThat(product.getProductID()).isEqualTo(productID);
+        assertThat(product.getProductId()).isEqualTo(productID);
         assertThat(product.getName()).isEqualTo(name);
         assertThat(product.getDescription()).isEqualTo(description);
         assertThat(product.getPrice()).isEqualTo(price);

@@ -1,5 +1,6 @@
 package br.com.ordertech.order.dto;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -15,6 +16,7 @@ import java.math.BigDecimal;
 public class ProductDto {
 
     @NotNull
+    @JsonAlias({"productId", "productID"})
     private Long productID;
 
     @NotNull

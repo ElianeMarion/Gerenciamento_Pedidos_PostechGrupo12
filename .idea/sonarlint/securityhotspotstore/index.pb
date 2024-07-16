@@ -129,3 +129,14 @@ o
 Lorder/src/main/java/br/com/ordertech/order/infra/CustomerClientFallback.java,b\f\bf402c4c6e02f09168fd77cc8b1109508ed1766c
 u
 Eorder/src/main/java/br/com/ordertech/order/api/ModelMapperConfig.java,1\b\1b8b698903d3642f8f598a9200f7f3aee60f9043
+M
+customermanagement/Dockerfile,b\1\b166482aa35fa421881c09daaba9ee7b0176e976
+V
+&customermanagement/docker-compose.yaml,6\5\65aa1b63eb4b1d82dbd87d4221fe250a670d96de
+J
+product/docker-compose.yml,1\8\18a6ff21e8cb1c720e116849b0e56a1b7696266e
+:
+
+.gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
+n
+>order/src/main/java/br/com/ordertech/order/models/Product.java,7\6\7627a44afa1dcc00821d9274ca5301f86317043c
