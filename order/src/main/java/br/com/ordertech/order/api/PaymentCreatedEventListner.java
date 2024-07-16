@@ -21,7 +21,9 @@ public class PaymentCreatedEventListner implements Consumer<PaymentDto> {
 
     @Override
     public void accept(PaymentDto paymentDto) {
-        log.info("Payment criado recebido" + paymentDto.getPaymentId());
+        log.info("Payment criado recebido " + paymentDto.getPaymentId() + paymentDto.getStatus());
+        if(paymentDto.getStatus() == null)
+            paymentDto.setStatus(StatusPaymentEnum.PROCESSING);
         Payment payment = Payment.builder()
                 .paymentId(paymentDto.getPaymentId())
                 .value(paymentDto.getValue())

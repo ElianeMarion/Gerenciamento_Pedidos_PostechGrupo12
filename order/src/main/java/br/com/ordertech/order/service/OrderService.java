@@ -113,6 +113,7 @@ public class OrderService {
         order.setStatus(status);
         orderRepository.save(order);
 
+
         CustomerDto customerDto = customerClient.getCustomerById(order.getCustomerId());
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setOrderID(order.getOrderId());
@@ -179,6 +180,7 @@ public class OrderService {
         List<OrderLineDto> orderLines = new ArrayList<>();
         OrderLineDto orderLineDto = new OrderLineDto();
         List<ProductDto> products = stockPedidoProducer.getAll();
+        products.forEach(prod -> System.out.println(" \n" + prod.getProductID() + " - " + prod.getName()));
         order.getOrderLine().forEach(orderLine-> {
             Optional<ProductDto> foundProduct = products.stream()
                     .filter(product -> product.getProductID().equals(orderLine.getProductId()))
