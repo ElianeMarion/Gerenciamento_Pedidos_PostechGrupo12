@@ -89,12 +89,8 @@ z
 Jdelivery/src/main/java/br/com/fiap/delivery/dto/OrderDeliveryResponse.java,c\2\c2cd83fe0c4aebb239512163bb46cae92eb133ee
 r
 Bdelivery/src/main/java/br/com/fiap/delivery/dto/OrderDelivery.java,3\8\38de9c1eb0e062dee4051970a1654f9694fc1071
-s
-Corder/src/main/java/br/com/ordertech/order/infra/OrderDelivery.java,f\8\f88802f69c20c5820a869f944ba063b10b64d461
 n
 >order/src/main/java/br/com/ordertech/order/models/Address.java,9\0\90c5d8a5ca25308070bbe035028bf05e02c0a1d6
-t
-Dorder/src/main/java/br/com/ordertech/order/dto/OrderDeliveryDto.java,5\b\5b346533e2842a7d989a4a65bc74931a784fdf65
 l
 <order/src/main/java/br/com/ordertech/order/models/Order.java,4\3\43a8e86df06cf12b1e451b61d1b9de49dd973f4e
 œ
@@ -103,3 +99,11 @@ lcustomermanagement/src/main/java/br/com/ordertech/customermanagement/external/a
 customermanagement/src/main/java/br/com/ordertech/customermanagement/infraestructure/gateway/impl/customer/CustomerGateway.java,1\7\178296ab37622ed057ede66f72bb07ccc4b0194e
 §
 wcustomermanagement/src/main/java/br/com/ordertech/customermanagement/infraestructure/controller/CustomerController.java,9\e\9e1dacfdbcbccc2c902a09557c8d368fb4878e71
+t
+Dorder/src/main/java/br/com/ordertech/order/dto/OrderDeliveryDto.java,5\b\5b346533e2842a7d989a4a65bc74931a784fdf65
+p
+@order/src/main/java/br/com/ordertech/order/dto/OrderRequest.java,e\d\ed1302c1bd5b221ced59a162f52525bdce6878f3
+n
+>order/src/main/java/br/com/ordertech/order/dto/ProductDto.java,7\2\72c1f8aeff0c6d8996908bb9f253e3de91090875
+€
+Porder/src/test/java/br/com/ordertech/order/infra/CustomerClientFallbackTest.java,7\b\7bdee5f27e30450f6a0c0d6d5a2d750aa1a9b3e0

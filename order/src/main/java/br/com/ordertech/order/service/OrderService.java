@@ -12,6 +12,7 @@ import br.com.ordertech.order.infra.PaymentClient;
 import br.com.ordertech.order.infra.StockPedidoProducer;
 import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.models.OrderLine;
+import br.com.ordertech.order.models.Product;
 import br.com.ordertech.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +20,9 @@ import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @Slf4j
@@ -90,7 +93,6 @@ public class OrderService {
             paymentDto.setOrderId(order.getOrderId());
             paymentDto.setValue(totalOrderValue(order));
             order.setPaymentId(paymentDto.getPaymentId());
-            //producer.sendPaymentUpdatedEvent(paymentDto);
             paymentClient.savePayment(paymentDto);
 
             return order;
@@ -110,8 +112,17 @@ public class OrderService {
         order.setStatusOrder(StatusOrderEnum.APPROVED);
         order.setStatus(status);
         orderRepository.save(order);
+
         CustomerDto customerDto = customerClient.getCustomerById(order.getCustomerId());
-        OrderDeliveryDto deliveryDto = new OrderDeliveryDto(order, customerDto.getAddress());
+        OrderRequest orderRequest = new OrderRequest();
+        orderRequest.setOrderID(order.getOrderId());
+        orderRequest.setOrderLines(getOrderLines(order));
+        orderRequest.setCustomer(customerDto);
+        orderRequest.setSendAddress(customerDto.getAddress());
+        orderRequest.setStatus(order.getStatus());
+        orderRequest.setDeliveryDate(order.getDeliveryDate());
+        orderRequest.setPurchaseDate(order.getPurchaseDate());
+        OrderDeliveryDto deliveryDto = new OrderDeliveryDto(orderRequest, customerDto.getAddress());
         orderDelivery.saveOrderDelivery(deliveryDto);
         return order;
     }
@@ -164,6 +175,25 @@ public class OrderService {
         });
     }
 
+    public List<OrderLineDto> getOrderLines(Order order){
+        List<OrderLineDto> orderLines = new ArrayList<>();
+        OrderLineDto orderLineDto = new OrderLineDto();
+        List<ProductDto> products = stockPedidoProducer.getAll();
+        order.getOrderLine().forEach(orderLine-> {
+            Optional<ProductDto> foundProduct = products.stream()
+                    .filter(product -> product.getProductID().equals(orderLine.getProductId()))
+                    .findFirst();
+            if (foundProduct.isPresent()) {
+                ProductDto productDto = foundProduct.get();
+                orderLineDto.setOrderLineID(orderLine.getOrderLineId());
+                orderLineDto.setQuantity(orderLine.getQuantity());
+                orderLineDto.setProduct(productDto);
+                orderLineDto.setPrice(orderLine.getPrice());
+                orderLines.add(orderLineDto);
+            }
+        });
+        return orderLines;
+    }
 
 
 

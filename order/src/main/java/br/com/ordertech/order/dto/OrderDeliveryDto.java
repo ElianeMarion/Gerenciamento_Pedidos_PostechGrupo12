@@ -17,7 +17,7 @@ public class OrderDeliveryDto {
 
     @NotNull
     @Valid
-    private Order order;
+    private OrderRequest order;
 
     @NotNull
     @Valid
