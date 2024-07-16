@@ -74,7 +74,7 @@ services:
       - mysql-data-product:/var/lib/mysql
     restart: unless-stopped
     ports:
-      - 3307:3307
+      - 3306:3306
     healthcheck:
       test: mysqladmin ping -h 127.0.0.1 -u $$MYSQL_USER --password=$$MYSQL_PASSWORD
       interval: 5s

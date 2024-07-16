@@ -125,3 +125,7 @@ o
 ?delivery/src/main/java/br/com/fiap/delivery/dto/ProductDto.java,9\0\90c0537639eb1138eb1edc0b53c16f10e9f08b62
 o
 ?delivery/src/main/java/br/com/fiap/delivery/dto/AddressDto.java,4\6\46c97913a0f94137d92ff932553585b29df0b0fb
+|
+Lorder/src/main/java/br/com/ordertech/order/infra/CustomerClientFallback.java,b\f\bf402c4c6e02f09168fd77cc8b1109508ed1766c
+u
+Eorder/src/main/java/br/com/ordertech/order/api/ModelMapperConfig.java,1\b\1b8b698903d3642f8f598a9200f7f3aee60f9043
