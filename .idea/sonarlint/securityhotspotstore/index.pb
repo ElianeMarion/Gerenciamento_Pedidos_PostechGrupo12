@@ -140,3 +140,5 @@ J
 .gitignore,a\5\a5cc2925ca8258af241be7e5b0381edf30266302
 n
 >order/src/main/java/br/com/ordertech/order/models/Product.java,7\6\7627a44afa1dcc00821d9274ca5301f86317043c
+n
+>order/src/main/java/br/com/ordertech/order/dto/AddressDto.java,c\6\c6821a4b6435a0d0698a72cad99a073f2806e2a7

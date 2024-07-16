@@ -1,17 +1,18 @@
-package br.com.ordertech.order.models;
+package br.com.ordertech.order.dto;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
-public class Address {
-
-    @JsonAlias({"addressID", "addressId"})
-    private Long addressId;
+@AllArgsConstructor
+public class AddressDto {
+    @JsonAlias({"addressId", "addressID"})
+    private Long addressID;
     private String street;
     private Integer number;
     private String complement;
@@ -19,6 +20,4 @@ public class Address {
     private String state;
     private String zipCode;
     private Integer subSector;
-
-
 }

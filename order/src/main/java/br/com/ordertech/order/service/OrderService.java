@@ -10,6 +10,7 @@ import br.com.ordertech.order.infra.CustomerClient;
 import br.com.ordertech.order.infra.OrderDelivery;
 import br.com.ordertech.order.infra.PaymentClient;
 import br.com.ordertech.order.infra.StockPedidoProducer;
+import br.com.ordertech.order.models.Address;
 import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.models.OrderLine;
 import br.com.ordertech.order.repository.OrderRepository;
@@ -65,7 +66,7 @@ public class OrderService {
             if(customer == null)
                 throw new CustomerNotFoundException("Cliente não retornado");
 
-            order.setDeliveryAddressId(customer.getAddress().getAddressID());
+            order.setDeliveryAddressId(customer.getAddress().getAddressId());
             order.setOriginAddressId(1L);
             order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
 
@@ -112,6 +113,8 @@ public class OrderService {
 
 
         CustomerDto customerDto = customerClient.getCustomerById(order.getCustomerId());
+        Address address = customerDto.getAddress();
+
         OrderRequest orderRequest = new OrderRequest();
         orderRequest.setOrderID(order.getOrderId());
         orderRequest.setOrderLines(getOrderLines(order));
@@ -120,7 +123,7 @@ public class OrderService {
         orderRequest.setStatus(order.getStatus());
         orderRequest.setDeliveryDate(order.getDeliveryDate());
         orderRequest.setPurchaseDate(order.getPurchaseDate());
-        OrderDeliveryDto deliveryDto = new OrderDeliveryDto(orderRequest, customerDto.getAddress());
+        OrderDeliveryDto deliveryDto = new OrderDeliveryDto(orderRequest, address);
         orderDelivery.saveOrderDelivery(deliveryDto);
         return order;
     }

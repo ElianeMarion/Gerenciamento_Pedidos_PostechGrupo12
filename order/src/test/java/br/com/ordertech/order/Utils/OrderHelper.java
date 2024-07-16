@@ -101,7 +101,7 @@ public abstract class OrderHelper {
                 .status(StatusEnum.WAITING_DELIVERY)
                 .customerID(OrderHelper.buildCustomer().getCustomerID())
                 .deliveryDate(null)
-                .deliveryAddressId(OrderHelper.buildCustomer().getAddress().getAddressID())
+                .deliveryAddressId(OrderHelper.buildCustomer().getAddress().getAddressId())
                 .orderLines(OrderHelper.addItensDto())
                 .totalOrderValue(new BigDecimal(20))
                 .build();

@@ -11,7 +11,7 @@ public class AddressTest {
     public void testAddressGettersAndSetters() {
         Address address = new Address();
 
-        address.setAddressID(1L);
+        address.setAddressId(1L);
         address.setStreet("Avenida Paulista");
         address.setNumber(123);
         address.setComplement("Apt 4B");
@@ -20,7 +20,7 @@ public class AddressTest {
         address.setZipCode("62701080");
         address.setSubSector(1);
 
-        assertThat(address.getAddressID()).isEqualTo(1L);
+        assertThat(address.getAddressId()).isEqualTo(1L);
         assertThat(address.getStreet()).isEqualTo("Avenida Paulista");
         assertThat(address.getNumber()).isEqualTo(123);
         assertThat(address.getComplement()).isEqualTo("Apt 4B");
@@ -33,7 +33,7 @@ public class AddressTest {
     @Test
     public void testValidAddress() {
         Address address1 = new Address();
-        address1.setAddressID(1L);
+        address1.setAddressId(1L);
         address1.setStreet("Avenida Paulista");
         address1.setNumber(123);
         address1.setComplement("Apt 4B");
@@ -43,7 +43,7 @@ public class AddressTest {
         address1.setSubSector(1);
 
         Address address2 = new Address();
-        address2.setAddressID(1L);
+        address2.setAddressId(1L);
         address2.setStreet("Avenida Paulista");
         address2.setNumber(123);
         address2.setComplement("Apt 4B");
@@ -58,7 +58,7 @@ public class AddressTest {
     @Test
     public void testDiferentAddress() {
         Address address1 = new Address();
-        address1.setAddressID(1L);
+        address1.setAddressId(1L);
         address1.setStreet("Avenida Paulista");
         address1.setNumber(123);
         address1.setComplement("Apt 4B");
@@ -68,7 +68,7 @@ public class AddressTest {
         address1.setSubSector(1);
 
         Address address2 = new Address();
-        address2.setAddressID(2L);
+        address2.setAddressId(2L);
         address2.setStreet("Alameda Santos");
         address2.setNumber(456);
         address2.setComplement("Apt 1A");
