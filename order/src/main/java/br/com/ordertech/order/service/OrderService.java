@@ -12,10 +12,8 @@ import br.com.ordertech.order.infra.PaymentClient;
 import br.com.ordertech.order.infra.StockPedidoProducer;
 import br.com.ordertech.order.models.Order;
 import br.com.ordertech.order.models.OrderLine;
-import br.com.ordertech.order.models.Product;
 import br.com.ordertech.order.repository.OrderRepository;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -67,8 +65,8 @@ public class OrderService {
             if(customer == null)
                 throw new CustomerNotFoundException("Cliente não retornado");
 
-            order.setCustomerId(customer.getCustomerId());
-            order.setDeliveryAddressId(customer.getAddress().getAddressId());
+            order.setCustomerId(customer.getCustomerID());
+            order.setDeliveryAddressId(customer.getAddress().getAddressID());
             order.setOriginAddressId(1L);
             order.setStatusOrder(StatusOrderEnum.WAITING_PAYMENT);
 
@@ -180,7 +178,7 @@ public class OrderService {
         List<OrderLineDto> orderLines = new ArrayList<>();
         OrderLineDto orderLineDto = new OrderLineDto();
         List<ProductDto> products = stockPedidoProducer.getAll();
-        products.forEach(prod -> System.out.println(" \n" + prod.getProductID() + " - " + prod.getName()));
+
         order.getOrderLine().forEach(orderLine-> {
             Optional<ProductDto> foundProduct = products.stream()
                     .filter(product -> product.getProductID().equals(orderLine.getProductId()))

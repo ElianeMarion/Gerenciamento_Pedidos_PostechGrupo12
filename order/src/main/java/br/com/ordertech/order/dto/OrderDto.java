@@ -7,7 +7,6 @@ import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 import lombok.extern.jackson.Jacksonized;
 
 import java.math.BigDecimal;
@@ -23,9 +22,9 @@ public class OrderDto {
 
     @NotNull
     @Valid
-    private Long orderId;
+    private Long orderID;
 
-    private Long customerId;
+    private Long customerID;
     @NotNull
     private LocalDateTime purchaseDate;
 
@@ -42,7 +41,7 @@ public class OrderDto {
 
     @NotEmpty
     @Valid
-    private List<OrderLineDto> orderLine;
+    private List<OrderLineDto> orderLines;
 
     private BigDecimal totalOrderValue;
     private StatusOrderEnum statusOrder;

@@ -13,7 +13,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class CustomerDto {
-    private Long customerId;
+    private Long customerID;
     @NotNull
     private String name;
     private String cpf;
@@ -22,7 +22,7 @@ public class CustomerDto {
     private Address address;
 
     public CustomerDto(Customer customer) {
-        this.customerId = customer.getCustomerId();
+        this.customerID = customer.getCustomerId();
         this.name = customer.getName();
         this.cpf = customer.getCpf();
         this.phoneNumber = customer.getPhoneNumber();

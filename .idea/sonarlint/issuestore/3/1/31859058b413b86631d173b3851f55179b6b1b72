@@ -1,8 +1,7 @@
 
-	java:S112g"FDefine and throw a dedicated exception instead of using a generic one.(†ŞğÂøÿÿÿÿ8Åş§È‹2J$9909317e-22a8-41cc-96ea-308027ec1467
-	java:S112i"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8Æş§È‹2J$92fe0185-4dd2-4b00-b50b-9232f7fdff2f
+	java:S112e"FDefine and throw a dedicated exception instead of using a generic one.(†ŞğÂøÿÿÿÿ8Åş§È‹2J$be98b4e8-cbea-4aee-a39e-58af004adf98
+	java:S112g"FDefine and throw a dedicated exception instead of using a generic one.(Ò‚Òéüÿÿÿÿ8Æş§È‹2J$b931a093-8b50-480f-9eed-693f747efa27
 š
-java:S1192o"WDefine a constant instead of duplicating this literal "Pedido nÃ£o encontrado" 3 times.(Øæ–¦8Èş§È‹2J$de71d2ba-71ee-4a7c-9088-bbeb9d15931d
+java:S1192m"WDefine a constant instead of duplicating this literal "Pedido nÃ£o encontrado" 3 times.(Øæ–¦8Èş§È‹2J$45072af8-a85c-48aa-a36e-4558bfc34485
 w
-java:S1172("/Remove this unused method parameter "producer".(Ò»ê˜ûÿÿÿÿ8Şş§È‹2J$cc54e01c-69a0-4274-af35-cae79e67caf0
-n	java:S106·"+Replace this use of System.out by a logger.(®³Ş¢8óş§È‹2J$3a1a128e-c36f-4c62-997e-2ba2d1afe4f8
+java:S1172&"/Remove this unused method parameter "producer".(Ò»ê˜ûÿÿÿÿ8Şş§È‹2J$cee1501d-db7f-4316-84ed-236e000d874b

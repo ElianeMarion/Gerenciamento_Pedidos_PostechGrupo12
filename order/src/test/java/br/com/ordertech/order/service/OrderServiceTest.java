@@ -59,7 +59,7 @@ class OrderServiceTest {
 
         // Setup dummy data
         customer = new CustomerDto();
-        customer.setCustomerId(1L);
+        customer.setCustomerID(1L);
 
         var address = new Address(1l,"Avenida Paulista", 54,"",
                 "São Paulo", "SP", "343434", 28394999);

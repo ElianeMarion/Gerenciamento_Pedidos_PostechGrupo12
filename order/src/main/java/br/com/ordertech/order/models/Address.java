@@ -9,13 +9,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class Address {
 
-    private Long addressId;
+    private Long addressID;
     private String street;
     private Integer number;
     private String complement;
     private String city;
     private String state;
-    private String zipcode;
+    private String zipCode;
     private Integer subSector;
 
 

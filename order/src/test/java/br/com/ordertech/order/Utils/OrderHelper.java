@@ -45,7 +45,7 @@ public abstract class OrderHelper {
         Order order = new Order();
         order.setOrderId(1l);
         order.setStatus(StatusEnum.WAITING_DELIVERY);
-        order.setCustomerId(OrderHelper.buildCustomer().getCustomerId());
+        order.setCustomerId(OrderHelper.buildCustomer().getCustomerID());
         order.setPurchaseDate(LocalDateTime.now().plusMinutes(1));
         order.setDeliveryDate(null);
         order.setDeliveryAddressId(1l);
@@ -75,7 +75,7 @@ public abstract class OrderHelper {
 
     public static CustomerDto buildCustomer() {
         CustomerDto dto = new CustomerDto();
-        dto.setCustomerId(1L);
+        dto.setCustomerID(1L);
         dto.setName("João da Silva");
         dto.setCpf("95859119062");
         dto.setPhoneNumber("11999992233");
@@ -96,13 +96,13 @@ public abstract class OrderHelper {
 
     public static OrderDto buildOrder(){
         return OrderDto.builder()
-                .orderId(1L)
+                .orderID(1L)
                 .statusOrder(StatusOrderEnum.WAITING_PAYMENT)
                 .status(StatusEnum.WAITING_DELIVERY)
-                .customerId(OrderHelper.buildCustomer().getCustomerId())
+                .customerID(OrderHelper.buildCustomer().getCustomerID())
                 .deliveryDate(null)
-                .deliveryAddressId(OrderHelper.buildCustomer().getAddress().getAddressId())
-                .orderLine(OrderHelper.addItensDto())
+                .deliveryAddressId(OrderHelper.buildCustomer().getAddress().getAddressID())
+                .orderLines(OrderHelper.addItensDto())
                 .totalOrderValue(new BigDecimal(20))
                 .build();
     }
@@ -139,7 +139,7 @@ public abstract class OrderHelper {
 
     public static OrderDto createInvalidOrder() {
         OrderDto order = buildOrder();
-        order.setCustomerId(-1L); // Definindo um ID de cliente inválido
+        order.setCustomerID(-1L); // Definindo um ID de cliente inválido
         return order;
     }
 }

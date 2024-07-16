@@ -21,11 +21,11 @@ class OrderDtoTest {
     @Test
     void testInstance() {
         OrderDto dto = OrderHelper.buildOrder();
-        assertThat(dto.getOrderId()).isEqualTo(1L);
+        assertThat(dto.getOrderID()).isEqualTo(1L);
         assertThat(dto.getStatus()).isEqualTo(StatusEnum.WAITING_DELIVERY);
         assertThat(dto.getDeliveryDate()).isNull();
-        assertThat(dto.getCustomerId()).isNotNull().isInstanceOf(Long.class);
-        assertThat(dto.getOrderLine()).isNotNull().asList().element(0).isInstanceOf(OrderLineDto.class);
+        assertThat(dto.getCustomerID()).isNotNull().isInstanceOf(Long.class);
+        assertThat(dto.getOrderLines()).isNotNull().asList().element(0).isInstanceOf(OrderLineDto.class);
     }
 
     private final ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
@@ -34,12 +34,12 @@ class OrderDtoTest {
     @Test
     public void testValidation() {
         OrderDto orderDto = OrderDto.builder()
-                .orderId(1L)
-                .customerId(2L)
+                .orderID(1L)
+                .customerID(2L)
                 .purchaseDate(LocalDateTime.now())
                 .status(StatusEnum.WAITING_DELIVERY)
                 .deliveryAddressId(3L)
-                .orderLine(List.of(OrderHelper.buildOrderLine()))
+                .orderLines(List.of(OrderHelper.buildOrderLine()))
                 .build();
 
         Set<ConstraintViolation<OrderDto>> violations = validator.validate(orderDto);
@@ -50,7 +50,7 @@ class OrderDtoTest {
     @Test
     public void testValidationWithNullFields() {
         OrderDto orderDto = OrderHelper.buildOrder();
-        orderDto.setOrderId(null);
+        orderDto.setOrderID(null);
         orderDto.setPurchaseDate(null);
         orderDto.setStatus(null);
         orderDto.setDeliveryAddressId(null);
@@ -64,12 +64,12 @@ class OrderDtoTest {
     public void testValidationWithEmptyOrderLine() {
 
         OrderDto orderDto = OrderDto.builder()
-                .orderId(1L)
-                .customerId(2L)
+                .orderID(1L)
+                .customerID(2L)
                 .purchaseDate(LocalDateTime.now())
                 .status(StatusEnum.WAITING_DELIVERY)
                 .deliveryAddressId(3L)
-                .orderLine(List.of())
+                .orderLines(List.of())
                 .build();
 
         Set<ConstraintViolation<OrderDto>> violations = validator.validate(orderDto);

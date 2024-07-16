@@ -17,7 +17,7 @@ public class CustomerTest {
         address.setComplement("Apt 4B");
         address.setCity("São Paulo");
         address.setState("SP");
-        address.setZipcode("04058852");
+        address.setZipCode("04058852");
         address.setSubSector(1);
 
         customer.setCustomerId(1L);
@@ -41,7 +41,7 @@ public class CustomerTest {
         address.setComplement("Apt 4B");
         address.setCity("São Paulo");
         address.setState("SP");
-        address.setZipcode("04058852");
+        address.setZipCode("04058852");
         address.setSubSector(1);
 
         Customer customer1 = new Customer();
@@ -69,7 +69,7 @@ public class CustomerTest {
         address1.setComplement("Apt 4B");
         address1.setCity("São Paulo");
         address1.setState("SP");
-        address1.setZipcode("04058852");
+        address1.setZipCode("04058852");
         address1.setSubSector(1);
 
         Address address2 = new Address();
@@ -78,7 +78,7 @@ public class CustomerTest {
         address2.setComplement("apt 1A");
         address2.setCity("São Paulo");
         address2.setState("SP");
-        address2.setZipcode("08998969");
+        address2.setZipCode("08998969");
         address2.setSubSector(2);
 
         Customer customer1 = new Customer();
